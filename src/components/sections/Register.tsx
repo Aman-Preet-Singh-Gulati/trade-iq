@@ -10,6 +10,7 @@ export default function Register() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [messageType, setMessageType] = useState<"error" | "warning">("error");
 
   const totalSteps = registrationFormSections.length;
 
@@ -20,6 +21,7 @@ export default function Register() {
 
   const handleNext = () => {
     setErrorMessage(""); // Clear any previous errors
+    setMessageType("error");
     if (currentStep < totalSteps) setCurrentStep(prev => prev + 1);
   };
 
@@ -38,6 +40,7 @@ export default function Register() {
 
     setIsSubmitting(true);
     setErrorMessage("");
+    setMessageType("error");
     
     try {
       // We append the honeypot "website" field here as an empty string. 
@@ -59,6 +62,11 @@ export default function Register() {
       }
 
       if (!res.ok) {
+        if (res.status === 429 && data.type === 'rate_limit_warning') {
+          setMessageType("warning");
+          throw new Error(data.error);
+        }
+        
         if (data.details && Array.isArray(data.details)) {
           // Format Zod field errors into a readable string without technical field names
           const formattedErrors = data.details.map((d: any) => d.message).join(" • ");
@@ -226,10 +234,14 @@ export default function Register() {
 
                 </div>
 
-                {/* Error Message Display */}
+                {/* Error/Warning Message Display */}
                 {errorMessage && (
-                  <div className="mt-6 p-4 bg-error-container text-on-error-container rounded border border-error-container font-body-sm animate-fade-in">
-                    <strong>Error:</strong> {errorMessage}
+                  <div className={`mt-6 p-4 rounded border font-body-sm animate-fade-in ${
+                    messageType === "warning" 
+                      ? "bg-amber-100 text-amber-900 border-amber-200" 
+                      : "bg-error-container text-on-error-container border-error-container"
+                  }`}>
+                    <strong>{messageType === "warning" ? "Notice:" : "Error:"}</strong> {errorMessage}
                   </div>
                 )}
 

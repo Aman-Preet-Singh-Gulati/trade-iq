@@ -35,17 +35,22 @@ const registerSchema = z.object({
 });
 
 // ----------------------------------------------------------------------
-// Basic In-Memory Rate Limiter Map (IP -> Timestamp)
+// Basic In-Memory Rate Limiter Map (IP -> {count, resetAt})
 // Includes a cleanup mechanism to prevent Memory Leaks (OOM Crashes)
 // ----------------------------------------------------------------------
-const rateLimitMap = new Map<string, number>();
-const RATE_LIMIT_MS = 60 * 1000; // 1 request per minute per IP
+interface RateLimitInfo {
+  count: number;
+  resetAt: number;
+}
+const rateLimitMap = new Map<string, RateLimitInfo>();
+const RATE_LIMIT_MS = 60 * 1000; // 1 minute per IP
+const MAX_REQUESTS = 2; // Allow 2 requests per minute
 
 // Cleanup sweep every 10 minutes to prevent map growing indefinitely
 setInterval(() => {
   const now = Date.now();
-  rateLimitMap.forEach((timestamp, ip) => {
-    if (now - timestamp > RATE_LIMIT_MS) {
+  rateLimitMap.forEach((info, ip) => {
+    if (now > info.resetAt) {
       rateLimitMap.delete(ip);
     }
   });
@@ -71,12 +76,22 @@ export async function POST(req: Request) {
     // 1. Rate Limiting Check
     const ip = req.headers.get('x-forwarded-for') || 'unknown';
     const now = Date.now();
-    const lastRequest = rateLimitMap.get(ip);
+    let rateInfo = rateLimitMap.get(ip);
 
-    if (lastRequest && (now - lastRequest) < RATE_LIMIT_MS) {
-      return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+    if (!rateInfo || now > rateInfo.resetAt) {
+      rateInfo = { count: 0, resetAt: now + RATE_LIMIT_MS };
     }
-    rateLimitMap.set(ip, now);
+
+    if (rateInfo.count >= MAX_REQUESTS) {
+      const remainingSec = Math.ceil((rateInfo.resetAt - now) / 1000);
+      return NextResponse.json({ 
+        error: `To prevent spam, please wait ${remainingSec} seconds before submitting again.`,
+        type: 'rate_limit_warning' 
+      }, { status: 429 });
+    }
+    
+    rateInfo.count += 1;
+    rateLimitMap.set(ip, rateInfo);
 
     // 2. Parse and Validate Request Body safely
     let body;
