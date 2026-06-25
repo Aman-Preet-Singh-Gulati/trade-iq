@@ -40,25 +40,25 @@ export default function Hero() {
                 </div>
               </div>
               <div className="text-sm font-label-caps text-on-primary-container">
-                <span className="text-primary-fixed font-bold">5,000+ TRADERS</span> ENROLLED WORLDWIDE
+                <span className="text-primary-fixed font-bold">500+ TRADERS</span> ENROLLED WORLDWIDE
               </div>
             </div>
           </div>
           <div className="relative">
             <div className="relative group aspect-video bg-black rounded-xl overflow-hidden border-4 border-white/10 shadow-2xl ring-1 ring-primary-fixed/20">
               {isPlaying ? (
-                <iframe 
+                <iframe
                   className="w-full h-full"
-                  src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1" 
-                  title="TradeIQ Session Recording" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1"
+                  title="TradeIQ Session Recording"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
               ) : (
                 <>
                   <div className="absolute inset-0 bg-cover bg-center opacity-70 group-hover:scale-105 transition-transform duration-700" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbC3RbESKrmWXzVnXO0_IgsXYmWTHDJjOBUSCvYqwRmZjsaxgcpCJjefOvx5opP79H0XzafsUg_XfWkhoiqX6VL6dmHIJpnVc3kl1fMDqAAb-YvgeT2lBEk2OIdPxDwYnSp3w16Y_22NiozaPAf6Wlre3YN-AeofGhTefv7aIW9E-zQBRXsD84UHlvwicAh_ndKzZD9uZQg41GRv7XNAPLSICWxHT4u_nD67rybcL9P7nubeVaEZ0MEeooqWhn0_JfIkE_Sx_59w')" }}></div>
                   <div className="absolute inset-0 bg-primary/20 flex items-center justify-center transition-all group-hover:bg-primary/30">
-                    <button 
+                    <button
                       className="w-20 h-20 bg-primary-fixed text-on-primary-fixed rounded-full flex items-center justify-center shadow-2xl transform transition-transform group-hover:scale-110"
                       onClick={() => setIsPlaying(true)}
                     >
