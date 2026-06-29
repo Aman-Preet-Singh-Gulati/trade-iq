@@ -9,17 +9,20 @@ export default function Hero() {
     <section className="relative bg-primary-container py-16 md:py-24 px-gutter-md overflow-hidden" id="hero">
       <div className="max-w-container-max mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="text-on-primary">
-            <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary-fixed/20 text-primary-fixed font-label-caps text-label-caps border border-primary-fixed/30">
-              INSTITUTIONAL-STYLE ALGO TRADING PROGRAM
+          <div className="contents lg:block text-on-primary">
+            <div className="order-1 lg:order-none">
+              <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary-fixed/20 text-primary-fixed font-label-caps text-label-caps border border-primary-fixed/30">
+                INSTITUTIONAL-STYLE ALGO TRADING PROGRAM
+              </div>
+              <h1 className="font-headline-xl text-4xl lg:text-[40px] font-extrabold mb-6 leading-[1.1]">
+                Eliminate Emotional Bias. Trade Like Institutions.<br /> Execute Like an Algorithm.
+              </h1>
+              <p className="font-body-md text-on-primary-container text-lg mb-8 max-w-xl opacity-90">
+                Discover a structured trading framework that blends institutional market knowledge with algorithmic strategies, enabling disciplined execution, effective risk management, and long-term consistency.
+              </p>
             </div>
-            <h1 className="font-headline-xl text-4xl lg:text-[40px] font-extrabold mb-6 leading-[1.1]">
-              Eliminate Emotional Bias. Trade Like Institutions.<br /> Execute Like an Algorithm.
-            </h1>
-            <p className="font-body-md text-on-primary-container text-lg mb-8 max-w-xl opacity-90">
-              Discover a structured trading framework that blends institutional market knowledge with algorithmic strategies, enabling disciplined execution, effective risk management, and long-term consistency.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 mb-10">
+            <div className="order-3 lg:order-none w-full">
+              <div className="flex flex-col sm:flex-row gap-4 mb-10">
               <a className="bg-primary-fixed text-on-primary-fixed px-8 py-4 rounded-lg font-bold text-center hover:bg-primary-fixed-dim transition-all shadow-lg hover:-translate-y-0.5" href="#register">
                 Enroll now
               </a>
@@ -43,8 +46,9 @@ export default function Hero() {
                 <span className="text-primary-fixed font-bold">250+ TRADERS</span> ENROLLED WORLDWIDE
               </div>
             </div>
+            </div>
           </div>
-          <div className="relative">
+          <div className="relative order-2 lg:order-none w-full">
             <div className="relative group aspect-video bg-black rounded-xl overflow-hidden border-4 border-white/10 shadow-2xl ring-1 ring-primary-fixed/20">
               {isPlaying ? (
                 <iframe

@@ -84,7 +84,7 @@ export const registrationFormSections: FormSection[] = [
         label: "Why do you want to join this bootcamp?",
         type: "radio",
         required: true,
-        options: ["Build my first trading bot", "Automate my existing strategy", "Become a full-time trader", "Remove emotions from trading", "Learn Pine Script", "Learn professional backtesting"]
+        options: ["Build my first trading bot", "Automate my existing strategy", "Become a full-time trader", "Remove emotions from trading", "Learn professional backtesting"]
       },
       {
         id: "capitalSize",
