@@ -1,90 +1,122 @@
 export const curriculumModules = [
   {
     moduleNumber: "01",
-    title: "Indian Market Infrastructure & Trader Mindset",
+    title: "Financial Market Foundations",
     topics: [
-      "Master the fundamentals of Indian market operations, including NSE/BSE dynamics, SEBI regulations, and settlement cycles.",
-      "Understand market participants, build a robust trader mindset, and calculate your trading edge using probability and VIX."
+      "How Financial Markets Work",
+      "Stocks, Futures & Options Made Simple",
+      "Risk Management from Day One",
+      "Build the Mindset of a Professional Trader"
     ]
   },
   {
     moduleNumber: "02",
-    title: "Technical Analysis: Reading the Language of Price",
+    title: "Learn to Read Charts Like a Pro",
     topics: [
-      "Learn to decode price action using candlestick anatomy, trendlines, and key support & resistance levels.",
-      "Identify high-probability continuation and reversal chart patterns, and validate your setups using volume analysis."
+      "Candlestick & Price Action",
+      "Support, Resistance & Trends",
+      "Identify High-Probability Setups",
+      "Volume & Market Structure"
     ]
   },
   {
     moduleNumber: "03",
-    title: "Market Structure, Price Action & Context",
+    title: "Market Structure & Price Action",
     topics: [
-      "Navigate market phases (Trend, Range, Transition) and track institutional accumulation and distribution.",
-      "Master valid breakout criteria, multiple timeframe confirmation, and learn to avoid retail stop-hunts."
+      "Understand Market Structure",
+      "Institutional Price Movements",
+      "Breakouts vs Fake Breakouts",
+      "Multi-Timeframe Analysis"
     ]
   },
   {
     moduleNumber: "04",
-    title: "Basics of Python for Traders",
+    title: "Using AI to Learn Programming",
     topics: [
-      "Set up your Python environment from scratch with a focus on trading applications.",
-      "Learn essential programming constructs including loops, dictionaries, functions, and data handling."
+      "Prompt Engineering for Traders",
+      "Learn Programming with AI",
+      "Build Trading Tools with AI",
+      "Prepare for Strategy Automation"
     ]
   },
   {
     moduleNumber: "05",
-    title: "AI as Your Trading Co-Pilot",
+    title: "Using AI as Your Trading Assistant",
     topics: [
-      "Integrate AI tools like ChatGPT, Claude, and Perplexity for real-time market research and code generation.",
-      "Master prompt engineering to effectively stress-test strategy logic, review journals, and analyze data."
+      "AI-Powered Market Research",
+      "Generate & Improve Strategy Ideas",
+      "Prompt Engineering for Better Results",
+      "Best AI Tools for Traders"
     ]
   },
   {
     moduleNumber: "06",
-    title: "No-Code Strategy Building with TradingView & AI",
+    title: "Build Trading Strategies Without Coding",
     topics: [
-      "Leverage AI to write, debug, and verify Pine Script v5 logic without prior coding experience.",
-      "Interpret strategy tester metrics (Net Profit, Max Drawdown) and avoid common strategy exclusions."
+      "Build Rule-Based Strategies",
+      "Create Strategies in TradingView",
+      "AI-Assisted Pine Script",
+      "Test & Improve Strategies"
     ]
   },
   {
     moduleNumber: "07",
-    title: "Python for Traders - AI Does the Heavy Lifting",
+    title: "Trading System Automation",
     topics: [
-      "Use AI to code indicators and handle Indian market data via yFinance while avoiding look-ahead bias.",
-      "Master data quality management, prevent duplicate entries, and set up a reliable paper trading log."
+      "Work with Market Data",
+      "Build Custom Indicators",
+      "Automate Trading Strategies",
+      "Avoid Common Coding Mistakes"
     ]
   },
   {
     moduleNumber: "08",
-    title: "Backtesting, Metrics & Quant Modeling",
+    title: "Professional Backtesting",
     topics: [
-      "Understand the reality of backtesting, overfitting, and walk-forward testing across different market regimes.",
-      "Use AI to brainstorm, build, and optimize quantitative models including Monte Carlo simulations."
+      "Backtest Like Professionals",
+      "Risk, Reward & Performance Metrics",
+      "Walk-Forward Testing",
+      "AI-Assisted Strategy Validation"
     ]
   },
   {
     moduleNumber: "09",
-    title: "Live Broker API, Safety Controls & SEBI Compliance",
+    title: "Advanced AI & Quant Trading",
     topics: [
-      "Master API fundamentals, rate limits, and order types using Zerodha KiteConnect and 5paisa.",
-      "Implement strict safety controls and ensure compliance with SEBI's algorithmic trading routing requirements."
+      "Generate Strategies Using AI",
+      "AI-Powered Market Research",
+      "Quantitative Trading Concepts",
+      "Monte Carlo & Regime Testing"
     ]
   },
   {
     moduleNumber: "10",
-    title: "Trading Psychology & Institutional Trading Methods",
+    title: "Live Algo Trading & Broker Integration",
     topics: [
-      "Develop an institutional mindset, understand options mechanics (theta decay, IV crush), and track smart money.",
-      "Build a disciplined pre-trading routine encompassing VIX analysis, news tracking, and max loss rules."
+      "Connect Strategies to Brokers",
+      "Live Order Execution",
+      "Trading APIs & Automation",
+      "Risk Management for Live Trading"
     ]
   },
   {
     moduleNumber: "11",
-    title: "Building Code Together",
+    title: "Professional Trading Psychology",
     topics: [
-      "Collaborate to create and deploy fully functional algorithmic strategies of your choice.",
-      "Adapt and launch your customized trading algorithms across diverse instruments (Crypto, Stocks, Forex)."
+      "Think Like a Professional Trader",
+      "Master Emotions & Discipline",
+      "Build Consistent Trading Habits",
+      "Develop a Long-Term Trading Mindset"
+    ]
+  },
+  {
+    moduleNumber: "12",
+    title: "Build Your Own Trading Algorithms",
+    topics: [
+      "Build End-to-End Trading Systems",
+      "Develop Automated Trading Bots",
+      "Deploy Across Multiple Markets",
+      "Live Implementation Projects"
     ]
   }
 ];

@@ -41,7 +41,7 @@ export default function Register() {
     setIsSubmitting(true);
     setErrorMessage("");
     setMessageType("error");
-    
+
     try {
       // We append the honeypot "website" field here as an empty string. 
       // If a bot somehow fills it, the backend will silently discard the request.
@@ -56,7 +56,7 @@ export default function Register() {
       // Safe JSON parsing to prevent crashes on 502/504 HTML error pages from proxies
       const contentType = res.headers.get("content-type");
       let data: any = {};
-      
+
       if (contentType && contentType.includes("application/json")) {
         data = await res.json();
       }
@@ -66,15 +66,15 @@ export default function Register() {
           setMessageType("warning");
           throw new Error(data.error);
         }
-        
+
         if (data.details && Array.isArray(data.details)) {
           // Format Zod field errors into a readable string without technical field names
           const formattedErrors = data.details.map((d: any) => d.message).join(" • ");
           throw new Error(formattedErrors);
         }
         // If details is a string, use it directly. Otherwise use a fallback error.
-        const errorMessage = typeof data.details === 'string' 
-          ? data.details 
+        const errorMessage = typeof data.details === 'string'
+          ? data.details
           : (data.error || `Server Error (${res.status}). Please try again.`);
         throw new Error(errorMessage);
       }
@@ -120,8 +120,8 @@ export default function Register() {
       }
     }
 
-    const commonLabelClass = field.type === 'radio' 
-      ? "block font-bold text-primary mb-2" 
+    const commonLabelClass = field.type === 'radio'
+      ? "block font-bold text-primary mb-2"
       : "block font-label-caps text-label-caps text-primary mb-2";
 
     const isSmallInput = ['text', 'email', 'tel'].includes(field.type);
@@ -135,24 +135,24 @@ export default function Register() {
         {field.type === 'radio' && renderRadioGroup(field)}
 
         {isSmallInput && (
-          <input 
-            required={field.required} 
-            className="w-full bg-surface border border-outline-variant rounded p-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none" 
-            name={field.id} 
-            value={formData[field.id] || ""} 
-            onChange={handleChange} 
-            placeholder={field.placeholder} 
-            type={field.type} 
+          <input
+            required={field.required}
+            className="w-full bg-surface border border-outline-variant rounded p-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+            name={field.id}
+            value={formData[field.id] || ""}
+            onChange={handleChange}
+            placeholder={field.placeholder}
+            type={field.type}
           />
         )}
 
         {field.type === 'textarea' && (
-          <textarea 
-            required={field.required} 
-            className="w-full bg-surface border border-outline-variant rounded p-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none min-h-[120px]" 
-            name={field.id} 
-            value={formData[field.id] || ""} 
-            onChange={handleChange} 
+          <textarea
+            required={field.required}
+            className="w-full bg-surface border border-outline-variant rounded p-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none min-h-[120px]"
+            name={field.id}
+            value={formData[field.id] || ""}
+            onChange={handleChange}
             placeholder={field.placeholder}
           />
         )}
@@ -166,7 +166,7 @@ export default function Register() {
     <section className="py-margin-lg px-gutter-md" id="register">
       <div className="max-w-container-max mx-auto">
         <div className="bg-primary-container rounded-xl overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[600px]">
-          
+
           {/* Left Side Info Panel */}
           <div className="lg:w-2/5 p-10 md:p-16 text-on-primary flex flex-col justify-between">
             <div>
@@ -185,11 +185,11 @@ export default function Register() {
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="material-symbols-outlined text-primary-fixed">check_circle</span>
-                  <span className="font-body-sm">Weekly live market recap calls</span>
+                  <span className="font-body-sm">Personalized mentorship and guidance</span>
                 </li>
               </ul>
             </div>
-            
+
             {/* Progress Indicator */}
             {!isSuccess && (
               <div className="mt-12">
@@ -197,7 +197,7 @@ export default function Register() {
                   STEP {currentStep} OF {totalSteps}
                 </p>
                 <div className="w-full bg-on-primary-container/20 h-2 rounded-full overflow-hidden">
-                  <div 
+                  <div
                     className="h-full bg-primary-fixed transition-all duration-500 ease-out"
                     style={{ width: `${(currentStep / totalSteps) * 100}%` }}
                   ></div>
@@ -221,7 +221,7 @@ export default function Register() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col h-full">
                 <div className="flex-grow animate-fade-in">
-                  
+
                   {/* Dynamic Step Rendering */}
                   {currentSection && (
                     <>
@@ -236,11 +236,10 @@ export default function Register() {
 
                 {/* Error/Warning Message Display */}
                 {errorMessage && (
-                  <div className={`mt-6 p-4 rounded border font-body-sm animate-fade-in ${
-                    messageType === "warning" 
-                      ? "bg-amber-100 text-amber-900 border-amber-200" 
+                  <div className={`mt-6 p-4 rounded border font-body-sm animate-fade-in ${messageType === "warning"
+                      ? "bg-amber-100 text-amber-900 border-amber-200"
                       : "bg-error-container text-on-error-container border-error-container"
-                  }`}>
+                    }`}>
                     <strong>{messageType === "warning" ? "Notice:" : "Error:"}</strong> {errorMessage}
                   </div>
                 )}

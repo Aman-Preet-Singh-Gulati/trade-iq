@@ -31,7 +31,7 @@ export default function Curriculum() {
           <h2 className="font-headline-lg text-headline-lg text-primary mb-4">A Comprehensive Roadmap to Mastery</h2>
           <div className="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
           <p className="font-body-md text-secondary mt-6 max-w-2xl mx-auto">
-            11 specialized modules designed to take you from market basics to building your own AI-powered trading systems.
+            12 specialized modules designed to take you from market basics to building your own AI-powered trading systems.
           </p>
         </div>
 
