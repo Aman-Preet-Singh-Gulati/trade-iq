@@ -71,7 +71,7 @@ export const TeamSection = React.forwardRef<HTMLDivElement, TeamSectionProps>(
 
                   {/* Social Links for individual members */}
                   {member.socialLinks && member.socialLinks.length > 0 && (
-                    <div className="relative z-10 mt-5 flex gap-4 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
+                    <div className="relative z-10 mt-5 flex gap-4 transition-opacity duration-300 ease-in-out">
                       {member.socialLinks.map((link, linkIndex) => (
                         <a
                           key={linkIndex}
