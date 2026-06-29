@@ -26,7 +26,7 @@ export default function Team() {
       name: "Nitya",
       designation: "Trader & Mentor",
       imageSrc:
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "Nitya.PNG",
       socialLinks: [
         { icon: InstagramIcon, href: "https://www.instagram.com/tradeiq.with.nitz?igsh=bmN0MTJ2NHE1YWJ3" },
       ],
@@ -35,7 +35,7 @@ export default function Team() {
       name: "Shwetaly",
       designation: "Trader & Mentor",
       imageSrc:
-        "/Shwetaly-headshot.png",
+        "Shwetaly-headshot.png",
       socialLinks: [
         { icon: InstagramIcon, href: "https://www.instagram.com/tradeiq.with.shwetaly?igsh=amxleDl4azFxeGJo" },
       ],
