@@ -221,7 +221,7 @@ export default function Register() {
                   Thank you for applying. Our team will review your application and get back to you shortly via email or WhatsApp.
                 </p>
                 <a
-                  href="https://chat.whatsapp.com/Jt0LW1gIwSC5UyUvq0txGA"
+                  href="https://chat.whatsapp.com/KNR7ZkalxPP015qP3e6wPd"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-[#25D366] text-white px-8 py-3.5 rounded-lg font-bold hover:bg-[#1ebd57] transition-colors shadow-lg hover:-translate-y-0.5"
