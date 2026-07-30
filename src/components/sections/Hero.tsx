@@ -1,10 +1,78 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
+// import { useState } from 'react'; // needed again once the video block below is restored
+
+function HeroShowcaseGraphic() {
+  const bars = [
+    { x: 40, y: 140, h: 50, delay: '0ms' },
+    { x: 72, y: 110, h: 80, delay: '80ms' },
+    { x: 104, y: 150, h: 40, delay: '160ms' },
+    { x: 136, y: 95, h: 95, delay: '240ms' },
+    { x: 168, y: 120, h: 70, delay: '320ms' },
+    { x: 200, y: 75, h: 115, delay: '400ms' },
+    { x: 232, y: 105, h: 85, delay: '480ms' },
+    { x: 264, y: 60, h: 130, delay: '560ms' },
+  ];
+
+  return (
+    <div className="relative aspect-video bg-gradient-to-br from-primary-container to-primary rounded-xl overflow-hidden border-4 border-white/10 shadow-2xl ring-1 ring-primary-fixed/20">
+      <div className="absolute -right-10 -top-10 w-56 h-56 bg-primary-fixed/20 rounded-full blur-3xl animate-chart-glow-drift" />
+      <div
+        className="absolute -left-8 -bottom-12 w-48 h-48 bg-primary-fixed/10 rounded-full blur-3xl animate-chart-glow-drift"
+        style={{ animationDelay: '-4.5s' }}
+      />
+
+      {/* Slow light sweep for a "live dashboard" feel */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-y-0 -left-1/4 w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-chart-scan" />
+      </div>
+
+      <svg
+        className="absolute inset-0 w-full h-full opacity-40"
+        viewBox="0 0 400 225"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+      >
+        <g className="stroke-primary-fixed/20" strokeWidth="1">
+          <line x1="0" y1="56" x2="400" y2="56" />
+          <line x1="0" y1="112" x2="400" y2="112" />
+          <line x1="0" y1="168" x2="400" y2="168" />
+        </g>
+        <g className="fill-primary-fixed/30">
+          {bars.map((bar) => (
+            <rect
+              key={bar.x}
+              x={bar.x}
+              y={bar.y}
+              width="14"
+              height={bar.h}
+              rx="2"
+              className="animate-chart-bar-rise"
+              style={{ transformOrigin: 'bottom', transformBox: 'fill-box', animationDelay: bar.delay }}
+            />
+          ))}
+        </g>
+        <path
+          d="M30 150 L95 100 L160 130 L225 70 L290 95 L360 45"
+          className="stroke-primary-fixed/70 animate-chart-draw"
+          fill="none"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          pathLength={1}
+          strokeDasharray={1}
+        />
+        <g>
+          <circle cx="360" cy="45" r="7" className="fill-primary-fixed/40 animate-ping" style={{ animationDelay: '2.7s', transformOrigin: '360px 45px', transformBox: 'fill-box' }} />
+          <circle cx="360" cy="45" r="4" className="fill-primary-fixed" />
+        </g>
+      </svg>
+    </div>
+  );
+}
 
 export default function Hero() {
-  const [isPlaying, setIsPlaying] = useState(false);
-
   return (
     <section className="relative bg-primary-container py-16 md:py-24 px-gutter-md overflow-hidden" id="hero">
       <div className="max-w-container-max mx-auto relative z-10">
@@ -48,6 +116,12 @@ export default function Hero() {
             </div>
             </div>
           </div>
+          {/*
+            VIDEO SHOWCASE — disabled until the team delivers the updated recording.
+            To restore: uncomment this block, uncomment the `useState` import and
+            `isPlaying` state near the top of this file, and remove the
+            HeroShowcaseGraphic placeholder block below.
+
           <div className="relative order-2 lg:order-none w-full">
             <div className="relative group aspect-video bg-black rounded-xl overflow-hidden border-4 border-white/10 shadow-2xl ring-1 ring-primary-fixed/20">
               {isPlaying ? (
@@ -72,6 +146,13 @@ export default function Hero() {
                 </>
               )}
             </div>
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary-fixed/10 rounded-full blur-3xl -z-10"></div>
+          </div>
+          */}
+
+          {/* Desktop-only placeholder graphic in place of the video; hidden on mobile so nothing awkward sits in its spot */}
+          <div className="hidden lg:block relative order-2 lg:order-none w-full">
+            <HeroShowcaseGraphic />
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary-fixed/10 rounded-full blur-3xl -z-10"></div>
           </div>
         </div>

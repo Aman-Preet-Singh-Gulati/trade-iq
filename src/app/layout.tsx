@@ -30,6 +30,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${manrope.variable} ${workSans.variable} ${hankenGrotesk.variable} scroll-smooth antialiased`}
     >
       <head>

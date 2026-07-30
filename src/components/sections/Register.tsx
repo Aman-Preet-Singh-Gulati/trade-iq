@@ -172,7 +172,7 @@ export default function Register() {
             <div>
               <h2 className="font-headline-xl text-headline-xl mb-6">Secure Your Spot</h2>
               <p className="font-headline-xl font-bold text-2xl mb-8">
-                Program Investment - ₹28,000
+                Program Investment - ₹32,000
               </p>
               <p className="font-body-md text-on-primary-container mb-8">
                 Spaces for our next session are strictly limited. Complete this short application to ensure this bootcamp is the right fit for you.
