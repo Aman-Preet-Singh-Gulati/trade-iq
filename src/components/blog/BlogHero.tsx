@@ -51,7 +51,7 @@ export default function BlogHero({ post, query, activeCategory }: BlogHeroProps)
               </div>
             </div>
             <h1 className="font-headline-xl text-headline-xl text-white mb-6 leading-tight">{post.title}</h1>
-            <p className="text-white/80 font-body-md mb-8 line-clamp-3">{post.excerpt}</p>
+            <p className="text-white/80 font-body-md mb-8 overflow-hidden max-h-[3lh] shrink-0">{post.excerpt}</p>
             <div>
               <Link
                 href={`/blog/${post.slug}`}

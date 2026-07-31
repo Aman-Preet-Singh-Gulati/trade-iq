@@ -18,7 +18,7 @@ export default function TrendingList({ posts }: { posts: PostCardDTO[] }) {
                 {String(index + 1).padStart(2, '0')}
               </span>
               <div>
-                <h5 className="font-bold text-primary group-hover:text-primary-container transition-colors line-clamp-2">
+                <h5 className="font-bold text-primary group-hover:text-primary-container transition-colors overflow-hidden max-h-[2lh]">
                   {post.title}
                 </h5>
                 <span className="text-[10px] text-secondary font-label-caps uppercase">

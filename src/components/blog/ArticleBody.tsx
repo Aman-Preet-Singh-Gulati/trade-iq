@@ -30,6 +30,35 @@ const components: Components = {
       {children}
     </blockquote>
   ),
+  img: ({ src, alt }) => (
+    <span className="block my-8">
+      <img
+        src={typeof src === 'string' ? src : undefined}
+        alt={alt}
+        className="w-full rounded-lg border border-outline-variant"
+        loading="lazy"
+      />
+      {alt && (
+        <span className="block mt-2 text-center font-body-sm text-secondary italic">{alt}</span>
+      )}
+    </span>
+  ),
+  pre: ({ children }) => (
+    <pre className="bg-surface-container-high border border-outline-variant rounded-lg p-4 mb-5 overflow-x-auto font-mono text-body-sm leading-relaxed">
+      {children}
+    </pre>
+  ),
+  code: ({ className, children }) => {
+    const isBlock = Boolean(className);
+    if (isBlock) {
+      return <code className={className}>{children}</code>;
+    }
+    return (
+      <code className="bg-surface-container-high border border-outline-variant rounded px-1.5 py-0.5 font-mono text-[0.9em] text-primary">
+        {children}
+      </code>
+    );
+  },
   table: ({ children }) => (
     <div className="overflow-x-auto mb-6 rounded-lg border border-outline-variant">
       <table className="w-full border-collapse font-body-sm text-body-sm">{children}</table>

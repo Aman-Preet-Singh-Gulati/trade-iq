@@ -27,7 +27,7 @@ export default function Footer() {
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="#curriculum">Curriculum</a>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="#register">Join Program</a>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="#faq">FAQ</a>
-          {/* <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/blog">Blog</a> hidden for this deployment — blog has placeholder content */}
+          <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/blog">Blog</a>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/strategies">Strategies</a>
         </div>
         <div>

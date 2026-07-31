@@ -24,10 +24,10 @@ export default function PostCard({ post }: { post: PostCardDTO }) {
           <span className="w-1 h-1 rounded-full bg-outline-variant" />
           <span>{post.readTimeMinutes} MIN READ</span>
         </div>
-        <h3 className="font-headline-lg-mobile md:font-headline-lg font-bold text-primary mb-3 leading-snug line-clamp-2 group-hover:text-surface-tint transition-colors md:text-2xl">
+        <h3 className="font-headline-lg-mobile md:font-headline-lg font-bold text-primary mb-3 leading-snug overflow-hidden max-h-[2lh] group-hover:text-surface-tint transition-colors md:text-2xl">
           {post.title}
         </h3>
-        <p className="text-secondary font-body-sm leading-relaxed line-clamp-3 mb-5 flex-1">{post.excerpt}</p>
+        <p className="text-secondary font-body-sm leading-relaxed overflow-hidden max-h-[3lh] mb-5 flex-1">{post.excerpt}</p>
         <div className="flex items-center text-primary-fixed-dim group-hover:text-primary text-sm font-bold mt-auto pt-4 border-t border-outline-variant/40 transition-colors">
           Read Full Story
           <span className="material-symbols-outlined text-base ml-1 group-hover:translate-x-1 transition-transform">

@@ -140,7 +140,7 @@ export async function getPublishedPostsPage({
     : [];
 
   const filtered = loadAllPosts().filter((post) => {
-    if (post.status !== "PUBLISHED" || post.featured) return false;
+    if (post.status !== "PUBLISHED") return false;
     if (categorySlug && post.category.slug !== categorySlug) return false;
     if (searchWords.length > 0) {
       const haystack = `${post.title} ${post.excerpt}`.toLowerCase();

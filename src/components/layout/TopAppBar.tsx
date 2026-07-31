@@ -17,7 +17,7 @@ export default function TopAppBar() {
     { id: 'curriculum', label: 'Curriculum' },
     { id: 'register', label: 'Join' },
     { id: 'faq', label: 'FAQ' },
-    // { id: 'blog', label: 'Blog', href: '/blog', external: true }, // hidden for this deployment — blog has placeholder content
+    { id: 'blog', label: 'Blog', href: '/blog', external: true },
     { id: 'strategies', label: 'Strategies', href: '/strategies', external: true },
   ];
 

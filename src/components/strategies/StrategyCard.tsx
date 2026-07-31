@@ -22,10 +22,10 @@ export default function StrategyCard({ strategy }: { strategy: StrategyCardDTO }
           </span>
           <span className="font-label-caps text-label-caps text-secondary">{strategy.fileType}</span>
         </div>
-        <h3 className="font-headline-lg text-headline-lg text-primary mb-3 leading-tight line-clamp-2">
+        <h3 className="font-headline-lg text-headline-lg text-primary mb-3 leading-tight overflow-hidden max-h-[2lh]">
           {strategy.title}
         </h3>
-        <p className="font-body-sm text-body-sm text-secondary line-clamp-3 mb-6 flex-1">
+        <p className="font-body-sm text-body-sm text-secondary overflow-hidden max-h-[3lh] mb-6 flex-1">
           {strategy.excerpt}
         </p>
         <div className="mt-auto flex items-center text-primary font-bold text-body-sm">

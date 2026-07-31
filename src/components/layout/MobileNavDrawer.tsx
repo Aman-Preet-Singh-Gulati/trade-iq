@@ -13,7 +13,7 @@ const drawerLinks = [
   { id: 'curriculum', label: 'Curriculum', href: '/#curriculum' },
   { id: 'register', label: 'Join', href: '/#register' },
   { id: 'faq', label: 'FAQ', href: '/#faq' },
-  // { id: 'blog', label: 'Blog', href: '/blog', external: true }, // hidden for this deployment — blog has placeholder content
+  { id: 'blog', label: 'Blog', href: '/blog', external: true },
   { id: 'strategies', label: 'Strategies', href: '/strategies', external: true },
 ];
 
