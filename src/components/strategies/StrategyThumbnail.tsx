@@ -107,6 +107,9 @@ function getPattern(categorySlug: string) {
     // Two related shapes, one diverging from the other.
     case 'divergence-trading':
       return <PatternRisk />;
+    // Nodes feeding a shared line: several signals resolving into one decision.
+    case 'trading-system-architecture':
+      return <PatternPython />;
     // Ascending progression: a stock's growth trajectory through stages.
     case 'growth-stock-investing':
       return <PatternDefault />;
