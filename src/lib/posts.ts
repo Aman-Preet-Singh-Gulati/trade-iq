@@ -1,7 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
-import { z } from "zod";
+import { cache } from "react";
+import { unstable_cache } from "next/cache";
+import { fetchQuery } from "convex/nextjs";
+import { fetchMutation } from "convex/nextjs";
+import { api } from "@convex/_generated/api";
 import type { Category, PostCardDTO } from "@/lib/blog-format";
 
 export type { Category, PostCardDTO } from "@/lib/blog-format";
@@ -10,37 +11,17 @@ export { formatReadCount, formatArticleDate } from "@/lib/blog-format";
 export const DEFAULT_PAGE_SIZE = 4;
 export const MAX_PAGE_SIZE = 24;
 
-const CONTENT_DIR = path.join(process.cwd(), "content", "blog");
-
-const frontmatterSchema = z.object({
-  title: z.string().min(1),
-  slug: z
-    .string()
-    .min(1)
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug must be lowercase kebab-case"),
-  category: z.string().min(1),
-  excerpt: z.string().min(1),
-  coverImageUrl: z.string().url(),
-  publishedAt: z.coerce.date(),
-  readTimeMinutes: z.number().int().positive(),
-  featured: z.boolean().default(false),
-  status: z.enum(["DRAFT", "PUBLISHED"]).default("DRAFT"),
-  readCount: z.number().int().nonnegative().default(0),
-});
-
-type FullPost = {
-  id: string;
+type ConvexPostMeta = {
   slug: string;
   title: string;
+  category: string;
   excerpt: string;
-  content: string;
   coverImageUrl: string;
   readTimeMinutes: number;
-  publishedAt: Date;
+  publishedAt: number;
   featured: boolean;
   status: "DRAFT" | "PUBLISHED";
   readCount: number;
-  category: Category;
 };
 
 function slugify(value: string): string {
@@ -51,73 +32,27 @@ function slugify(value: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-let cachedPosts: FullPost[] | undefined;
-
-function loadAllPosts(): FullPost[] {
-  if (cachedPosts) return cachedPosts;
-
-  const files = fs.readdirSync(CONTENT_DIR).filter((f) => f.endsWith(".md"));
-
-  const posts = files.map((file) => {
-    const fullPath = path.join(CONTENT_DIR, file);
-    const raw = fs.readFileSync(fullPath, "utf-8");
-    const { data, content } = matter(raw);
-
-    const parsed = frontmatterSchema.safeParse(data);
-    if (!parsed.success) {
-      throw new Error(
-        `Invalid frontmatter in content/blog/${file}: ${parsed.error.issues
-          .map((issue) => `${issue.path.join(".")} - ${issue.message}`)
-          .join(", ")}`
-      );
-    }
-
-    const fm = parsed.data;
-    const categorySlug = slugify(fm.category);
-
-    return {
-      id: fm.slug,
-      slug: fm.slug,
-      title: fm.title,
-      excerpt: fm.excerpt,
-      content: content.trim(),
-      coverImageUrl: fm.coverImageUrl,
-      readTimeMinutes: fm.readTimeMinutes,
-      publishedAt: fm.publishedAt,
-      featured: fm.featured,
-      status: fm.status,
-      readCount: fm.readCount,
-      category: { id: categorySlug, name: fm.category, slug: categorySlug },
-    } satisfies FullPost;
-  });
-
-  const slugs = new Set<string>();
-  for (const post of posts) {
-    if (slugs.has(post.slug)) {
-      throw new Error(`Duplicate blog post slug: "${post.slug}"`);
-    }
-    slugs.add(post.slug);
-  }
-
-  posts.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
-
-  cachedPosts = posts;
-  return posts;
-}
-
-function toCardDTO(post: FullPost): PostCardDTO {
+function toCardDTO(doc: ConvexPostMeta): PostCardDTO {
   return {
-    id: post.id,
-    slug: post.slug,
-    title: post.title,
-    excerpt: post.excerpt,
-    coverImageUrl: post.coverImageUrl,
-    readTimeMinutes: post.readTimeMinutes,
-    publishedAt: post.publishedAt.toISOString(),
-    readCount: post.readCount,
-    category: { name: post.category.name, slug: post.category.slug },
+    id: doc.slug,
+    slug: doc.slug,
+    title: doc.title,
+    excerpt: doc.excerpt,
+    coverImageUrl: doc.coverImageUrl,
+    readTimeMinutes: doc.readTimeMinutes,
+    publishedAt: new Date(doc.publishedAt).toISOString(),
+    readCount: doc.readCount,
+    category: { name: doc.category, slug: slugify(doc.category) },
   };
 }
+
+// Metadata-only cache, mirrors the strategies pattern. Tagged for on-demand
+// invalidation from the admin Server Actions on publish/edit.
+const loadPublishedPosts = unstable_cache(
+  async (): Promise<ConvexPostMeta[]> => fetchQuery(api.blogPosts.listPublished, {}),
+  ["blog-list"],
+  { tags: ["blog-list"], revalidate: 3600 }
+);
 
 interface GetPostsPageParams {
   categorySlug?: string;
@@ -135,13 +70,11 @@ export async function getPublishedPostsPage({
   const clampedLimit = Math.min(Math.max(limit, 1), MAX_PAGE_SIZE);
   const clampedPage = Math.max(page, 1);
 
-  const searchWords = q
-    ? q.trim().toLowerCase().split(/\s+/).filter(Boolean)
-    : [];
+  const searchWords = q ? q.trim().toLowerCase().split(/\s+/).filter(Boolean) : [];
 
-  const filtered = loadAllPosts().filter((post) => {
-    if (post.status !== "PUBLISHED") return false;
-    if (categorySlug && post.category.slug !== categorySlug) return false;
+  const all = await loadPublishedPosts();
+  const filtered = all.filter((post) => {
+    if (categorySlug && slugify(post.category) !== categorySlug) return false;
     if (searchWords.length > 0) {
       const haystack = `${post.title} ${post.excerpt}`.toLowerCase();
       if (!searchWords.some((word) => haystack.includes(word))) return false;
@@ -158,39 +91,60 @@ export async function getPublishedPostsPage({
 }
 
 export async function getFeaturedPost(): Promise<PostCardDTO | null> {
-  const post = loadAllPosts().find((p) => p.status === "PUBLISHED" && p.featured);
-  return post ? toCardDTO(post) : null;
+  const all = await loadPublishedPosts();
+  const featured = all.find((p) => p.featured);
+  return featured ? toCardDTO(featured) : null;
 }
 
 export async function getTrendingPosts(limit = 3): Promise<PostCardDTO[]> {
-  const posts = loadAllPosts()
-    .filter((p) => p.status === "PUBLISHED")
-    .slice()
-    .sort((a, b) => b.readCount - a.readCount)
-    .slice(0, limit);
-  return posts.map(toCardDTO);
+  const all = await loadPublishedPosts();
+  const sorted = all.slice().sort((a, b) => b.readCount - a.readCount);
+  return sorted.slice(0, limit).map(toCardDTO);
 }
 
 export async function getCategories(): Promise<Category[]> {
+  // Published-only (unlike the old fs-based version, which included DRAFT
+  // posts here too) — with real admin-created drafts now possible, leaking
+  // draft-only category names into the public filter pills isn't desirable.
+  const all = await loadPublishedPosts();
   const bySlug = new Map<string, Category>();
-  for (const post of loadAllPosts()) {
-    if (!bySlug.has(post.category.slug)) {
-      bySlug.set(post.category.slug, post.category);
+  for (const post of all) {
+    const slug = slugify(post.category);
+    if (!bySlug.has(slug)) {
+      bySlug.set(slug, { id: slug, name: post.category, slug });
     }
   }
   return Array.from(bySlug.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function getAllPublishedSlugs(): Promise<string[]> {
-  return loadAllPosts()
-    .filter((p) => p.status === "PUBLISHED")
-    .map((p) => p.slug);
+  const all = await loadPublishedPosts();
+  return all.map((p) => p.slug);
 }
 
-export async function getPublishedPostBySlug(slug: string) {
-  const post = loadAllPosts().find((p) => p.slug === slug);
-  if (!post || post.status !== "PUBLISHED") {
-    return null;
+// Per-slug content cache + per-request dedup, mirrors strategies.ts.
+export const getPublishedPostBySlug = cache(async (slug: string) => {
+  const loadBySlug = unstable_cache(
+    async (s: string) => fetchQuery(api.blogPosts.getBySlug, { slug: s }),
+    ["blog-post-by-slug", slug],
+    { tags: [`blog:${slug}`], revalidate: 3600 }
+  );
+  const doc = await loadBySlug(slug);
+  if (!doc) return null;
+  return {
+    ...toCardDTO(doc),
+    content: doc.content,
+    featured: doc.featured,
+    status: doc.status,
+  };
+});
+
+// Fire-and-forget: called from the blog detail page on render. Not part of
+// the cached read path above (it's a write, and shouldn't affect caching).
+export async function incrementPostReadCount(slug: string): Promise<void> {
+  try {
+    await fetchMutation(api.blogPosts.incrementReadCount, { slug });
+  } catch {
+    // Non-critical — a missed view-count increment shouldn't break the page.
   }
-  return post;
 }

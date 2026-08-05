@@ -5,15 +5,32 @@ import BlogTopBar from '@/components/blog/BlogTopBar';
 import BlogFooter from '@/components/blog/BlogFooter';
 import ArticleBody from '@/components/blog/ArticleBody';
 import Sidebar from '@/components/blog/Sidebar';
-import { getAllPublishedSlugs, getCategories, getPublishedPostBySlug, getTrendingPosts, formatArticleDate } from '@/lib/posts';
+import {
+  getAllPublishedSlugs,
+  getCategories,
+  getPublishedPostBySlug,
+  getTrendingPosts,
+  formatArticleDate,
+} from '@/lib/posts';
+import ViewTracker from './ViewTracker';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// A slug published after the last deploy still renders correctly on first
+// request instead of 404ing — generateStaticParams below only prewarms
+// slugs known at build time.
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
-  const slugs = await getAllPublishedSlugs();
-  return slugs.map((slug) => ({ slug }));
+  try {
+    const slugs = await getAllPublishedSlugs();
+    return slugs.map((slug) => ({ slug }));
+  } catch {
+    // Never fail the build if Convex is unreachable at build time.
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
@@ -32,7 +49,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       description: post.excerpt,
       images: [post.coverImageUrl],
       type: 'article',
-      publishedTime: post.publishedAt.toISOString(),
+      publishedTime: post.publishedAt,
     },
   };
 }
@@ -49,6 +66,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
+      <ViewTracker slug={slug} />
       <BlogTopBar />
       <main className="w-full pt-24 max-w-container-max mx-auto px-gutter-md">
         <div className="mt-8 mb-10">
@@ -74,7 +92,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           <div className="flex items-center gap-3 text-secondary text-xs mt-6 font-label-caps tracking-wider">
-            <span>{formatArticleDate(post.publishedAt.toISOString())}</span>
+            <span>{formatArticleDate(post.publishedAt)}</span>
             <span className="w-1 h-1 rounded-full bg-outline-variant" />
             <span>{post.readTimeMinutes} MIN READ</span>
           </div>

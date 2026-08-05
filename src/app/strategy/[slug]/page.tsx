@@ -10,9 +10,19 @@ interface StrategyPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// A slug published after the last deploy still renders correctly on first
+// request instead of 404ing — generateStaticParams below only prewarms
+// slugs known at build time.
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
-  const slugs = await getAllPublishedStrategySlugs();
-  return slugs.map((slug) => ({ slug }));
+  try {
+    const slugs = await getAllPublishedStrategySlugs();
+    return slugs.map((slug) => ({ slug }));
+  } catch {
+    // Never fail the build if Convex is unreachable at build time.
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: StrategyPageProps): Promise<Metadata> {
@@ -98,8 +108,8 @@ export default async function StrategyPage({ params }: StrategyPageProps) {
             </span>
 
             <a
-              href={`/strategies/${strategy.fileName}`}
-              download
+              href={`/api/strategy-download/${strategy.slug}`}
+              download={strategy.fileName}
               className="ml-auto inline-flex items-center gap-1.5 bg-primary text-on-primary font-bold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity font-body-sm text-body-sm whitespace-nowrap"
             >
               <span className="material-symbols-outlined text-lg">download</span>

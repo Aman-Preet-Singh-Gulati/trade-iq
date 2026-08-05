@@ -1,33 +1,10 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
-import { z } from "zod";
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
+import { fetchQuery } from "convex/nextjs";
+import { api } from "@convex/_generated/api";
 import type { Category } from "@/lib/blog-format";
 
 export type { Category } from "@/lib/blog-format";
-
-const CONTENT_DIR = path.join(process.cwd(), "content", "strategies");
-const FILES_DIR = path.join(process.cwd(), "public", "strategies");
-
-const frontmatterSchema = z.object({
-  title: z.string().min(1),
-  slug: z
-    .string()
-    .min(1)
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug must be lowercase kebab-case"),
-  category: z.string().min(1),
-  icon: z.string().min(1),
-  coverImageUrl: z.string().min(1).optional(),
-  fileName: z
-    .string()
-    .min(1)
-    .regex(/\.(pdf|docx)$/i, "fileName must end in .pdf or .docx"),
-  excerpt: z.string().min(1),
-  summary: z.string().min(1),
-  publishedAt: z.coerce.date(),
-  status: z.enum(["DRAFT", "PUBLISHED"]).default("DRAFT"),
-});
 
 export type StrategyCardDTO = {
   id: string;
@@ -36,6 +13,7 @@ export type StrategyCardDTO = {
   excerpt: string;
   icon: string;
   coverImageUrl?: string;
+  fileUrl: string;
   fileName: string;
   fileType: "PDF" | "DOCX";
   fileSizeLabel: string;
@@ -43,13 +21,26 @@ export type StrategyCardDTO = {
   category: { name: string; slug: string };
 };
 
-type StrategyMeta = StrategyCardDTO & {
+type FullStrategy = StrategyCardDTO & {
+  content: string;
   summary: string;
   status: "DRAFT" | "PUBLISHED";
 };
 
-type FullStrategy = StrategyMeta & {
-  content: string;
+type ConvexStrategyMeta = {
+  slug: string;
+  title: string;
+  category: string;
+  icon: string;
+  coverImageUrl: string | null;
+  fileUrl: string | null;
+  fileName: string;
+  fileType: "PDF" | "DOCX";
+  fileSize: number;
+  excerpt: string;
+  summary: string;
+  publishedAt: number;
+  status: "DRAFT" | "PUBLISHED";
 };
 
 function slugify(value: string): string {
@@ -60,13 +51,6 @@ function slugify(value: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-function getFileType(fileName: string): "PDF" | "DOCX" {
-  const ext = path.extname(fileName).toLowerCase();
-  if (ext === ".pdf") return "PDF";
-  if (ext === ".docx") return "DOCX";
-  throw new Error(`Unsupported strategy file extension: ${fileName}`);
-}
-
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   const kb = bytes / 1024;
@@ -74,103 +58,44 @@ function formatFileSize(bytes: number): string {
   return `${(kb / 1024).toFixed(1)} MB`;
 }
 
-function buildMeta(file: string, data: unknown): StrategyMeta {
-  const parsed = frontmatterSchema.safeParse(data);
-  if (!parsed.success) {
-    throw new Error(
-      `Invalid frontmatter in content/strategies/${file}: ${parsed.error.issues
-        .map((issue) => `${issue.path.join(".")} - ${issue.message}`)
-        .join(", ")}`
-    );
-  }
-
-  const fm = parsed.data;
-  const filePath = path.join(FILES_DIR, fm.fileName);
-  if (!fs.existsSync(filePath)) {
-    throw new Error(
-      `content/strategies/${file} references fileName "${fm.fileName}" but public/strategies/${fm.fileName} does not exist.`
-    );
-  }
-
-  const categorySlug = slugify(fm.category);
-
+function toCardDTO(doc: ConvexStrategyMeta): StrategyCardDTO {
   return {
-    id: fm.slug,
-    slug: fm.slug,
-    title: fm.title,
-    excerpt: fm.excerpt,
-    summary: fm.summary,
-    icon: fm.icon,
-    coverImageUrl: fm.coverImageUrl,
-    fileName: fm.fileName,
-    fileType: getFileType(fm.fileName),
-    fileSizeLabel: formatFileSize(fs.statSync(filePath).size),
-    publishedAt: fm.publishedAt.toISOString(),
-    category: { name: fm.category, slug: categorySlug },
-    status: fm.status,
-  } satisfies StrategyMeta;
+    id: doc.slug,
+    slug: doc.slug,
+    title: doc.title,
+    excerpt: doc.excerpt,
+    icon: doc.icon,
+    coverImageUrl: doc.coverImageUrl ?? undefined,
+    fileUrl: doc.fileUrl ?? "",
+    fileName: doc.fileName,
+    fileType: doc.fileType,
+    fileSizeLabel: formatFileSize(doc.fileSize),
+    publishedAt: new Date(doc.publishedAt).toISOString(),
+    category: { name: doc.category, slug: slugify(doc.category) },
+  };
 }
 
 // Metadata-only cache: powers the listing page, category filters, and
-// generateStaticParams without ever reading a strategy's full markdown body.
-let cachedMetaList: StrategyMeta[] | undefined;
-
-function loadStrategyMetaList(): StrategyMeta[] {
-  if (cachedMetaList) return cachedMetaList;
-
-  const files = fs.readdirSync(CONTENT_DIR).filter((f) => f.endsWith(".md"));
-
-  const metas = files.map((file) => {
-    const fullPath = path.join(CONTENT_DIR, file);
-    const raw = fs.readFileSync(fullPath, "utf-8");
-    const { data } = matter(raw);
-    return buildMeta(file, data);
-  });
-
-  const slugs = new Set<string>();
-  for (const meta of metas) {
-    if (slugs.has(meta.slug)) {
-      throw new Error(`Duplicate strategy slug: "${meta.slug}"`);
-    }
-    slugs.add(meta.slug);
-  }
-
-  metas.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-
-  cachedMetaList = metas;
-  return metas;
-}
-
-function toCardDTO(meta: StrategyMeta): StrategyCardDTO {
-  return {
-    id: meta.id,
-    slug: meta.slug,
-    title: meta.title,
-    excerpt: meta.excerpt,
-    icon: meta.icon,
-    coverImageUrl: meta.coverImageUrl,
-    fileName: meta.fileName,
-    fileType: meta.fileType,
-    fileSizeLabel: meta.fileSizeLabel,
-    publishedAt: meta.publishedAt,
-    category: meta.category,
-  };
-}
+// generateStaticParams without ever reading a strategy's full markdown body
+// — mirrors the previous fs-based metadata/content split. Tagged for
+// on-demand invalidation from the admin Server Actions on publish/edit.
+const loadPublishedStrategies = unstable_cache(
+  async (): Promise<ConvexStrategyMeta[]> => fetchQuery(api.strategies.listPublished, {}),
+  ["strategies-list"],
+  { tags: ["strategies-list"], revalidate: 3600 }
+);
 
 interface GetStrategiesParams {
   categorySlug?: string;
   q?: string;
 }
 
-export async function getStrategies({
-  categorySlug,
-  q,
-}: GetStrategiesParams = {}): Promise<StrategyCardDTO[]> {
+export async function getStrategies({ categorySlug, q }: GetStrategiesParams = {}): Promise<StrategyCardDTO[]> {
   const searchWords = q ? q.trim().toLowerCase().split(/\s+/).filter(Boolean) : [];
+  const all = await loadPublishedStrategies();
 
-  const filtered = loadStrategyMetaList().filter((strategy) => {
-    if (strategy.status !== "PUBLISHED") return false;
-    if (categorySlug && strategy.category.slug !== categorySlug) return false;
+  const filtered = all.filter((strategy) => {
+    if (categorySlug && slugify(strategy.category) !== categorySlug) return false;
     if (searchWords.length > 0) {
       const haystack = `${strategy.title} ${strategy.excerpt}`.toLowerCase();
       if (!searchWords.some((word) => haystack.includes(word))) return false;
@@ -182,54 +107,37 @@ export async function getStrategies({
 }
 
 export async function getStrategyCategories(): Promise<Category[]> {
+  const all = await loadPublishedStrategies();
   const bySlug = new Map<string, Category>();
-  for (const strategy of loadStrategyMetaList()) {
-    if (strategy.status !== "PUBLISHED") continue;
-    if (!bySlug.has(strategy.category.slug)) {
-      bySlug.set(strategy.category.slug, { id: strategy.category.slug, ...strategy.category });
+  for (const strategy of all) {
+    const slug = slugify(strategy.category);
+    if (!bySlug.has(slug)) {
+      bySlug.set(slug, { id: slug, name: strategy.category, slug });
     }
   }
   return Array.from(bySlug.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function getAllPublishedStrategySlugs(): Promise<string[]> {
-  return loadStrategyMetaList()
-    .filter((s) => s.status === "PUBLISHED")
-    .map((s) => s.slug);
+  const all = await loadPublishedStrategies();
+  return all.map((s) => s.slug);
 }
 
-// Per-slug content cache: reading one strategy's full body never touches the
-// other strategies' markdown files (no directory scan, no shared array).
-const strategyContentCache = new Map<string, FullStrategy | null>();
-
-function readStrategyFile(slug: string): FullStrategy | null {
-  if (strategyContentCache.has(slug)) {
-    return strategyContentCache.get(slug) ?? null;
-  }
-
-  const fullPath = path.join(CONTENT_DIR, `${slug}.md`);
-  if (!fs.existsSync(fullPath)) {
-    strategyContentCache.set(slug, null);
-    return null;
-  }
-
-  const raw = fs.readFileSync(fullPath, "utf-8");
-  const { data, content } = matter(raw);
-  const meta = buildMeta(`${slug}.md`, data);
-
-  if (meta.slug !== slug) {
-    throw new Error(
-      `content/strategies/${slug}.md frontmatter slug "${meta.slug}" does not match its file name.`
-    );
-  }
-
-  const full: FullStrategy = { ...meta, content: content.trim() };
-  strategyContentCache.set(slug, full);
-  return full;
-}
-
+// Per-slug content cache: reading one strategy's full body never triggers a
+// read of the other strategies. React's cache() also dedupes repeated calls
+// (e.g. generateMetadata + the page component) within one request.
 export const getStrategyBySlug = cache(async (slug: string): Promise<FullStrategy | null> => {
-  const strategy = readStrategyFile(slug);
-  if (!strategy || strategy.status !== "PUBLISHED") return null;
-  return strategy;
+  const loadBySlug = unstable_cache(
+    async (s: string) => fetchQuery(api.strategies.getBySlug, { slug: s }),
+    ["strategy-by-slug", slug],
+    { tags: [`strategy:${slug}`], revalidate: 3600 }
+  );
+  const doc = await loadBySlug(slug);
+  if (!doc) return null;
+  return {
+    ...toCardDTO(doc),
+    content: doc.content,
+    summary: doc.summary,
+    status: doc.status,
+  };
 });
