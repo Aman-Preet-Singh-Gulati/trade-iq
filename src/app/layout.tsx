@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Work_Sans, Hanken_Grotesk } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -36,7 +37,10 @@ export default function RootLayout({
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       </head>
-      <body className="min-h-full flex flex-col font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">{children}</body>
+      <body className="min-h-full flex flex-col font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { isAuthenticatedNextjs } from "@convex-dev/auth/nextjs/server";
+import AdminShell from "@/components/admin/AdminShell";
 import AdminTopBar from "@/components/admin/AdminTopBar";
 import AdminSidebarNav from "@/components/admin/AdminSidebarNav";
 import type { ReactNode } from "react";
@@ -14,14 +15,14 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <AdminTopBar />
-      <div className="flex flex-1">
-        <div className="p-6 border-r border-outline-variant">
+    <AdminShell>
+      <div className="min-h-screen flex flex-col">
+        <AdminTopBar />
+        <div className="flex flex-1">
           <AdminSidebarNav />
+          <main className="flex-1 p-8 min-w-0">{children}</main>
         </div>
-        <main className="flex-1 p-8 min-w-0">{children}</main>
       </div>
-    </div>
+    </AdminShell>
   );
 }
