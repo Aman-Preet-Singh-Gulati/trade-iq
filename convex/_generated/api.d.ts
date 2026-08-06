@@ -16,6 +16,7 @@ import type * as lib_authGuard from "../lib/authGuard.js";
 import type * as lib_fileValidation from "../lib/fileValidation.js";
 import type * as seedAdmin from "../seedAdmin.js";
 import type * as strategies from "../strategies.js";
+import type * as tools from "../tools.js";
 
 import type {
   ApiFromModules,
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   "lib/fileValidation": typeof lib_fileValidation;
   seedAdmin: typeof seedAdmin;
   strategies: typeof strategies;
+  tools: typeof tools;
 }>;
 
 /**

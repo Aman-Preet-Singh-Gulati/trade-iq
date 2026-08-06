@@ -11,6 +11,7 @@ export default function TopAppBar() {
   const pathname = usePathname();
   const isBlogActive = pathname?.startsWith('/blog') ?? false;
   const isStrategiesActive = pathname === '/strategies' || (pathname?.startsWith('/strategy/') ?? false);
+  const isToolsActive = pathname === '/tools';
 
   const navLinks = [
     { id: 'hero', label: 'Home' },
@@ -19,6 +20,7 @@ export default function TopAppBar() {
     { id: 'faq', label: 'FAQ' },
     { id: 'blog', label: 'Blog', href: '/blog', external: true },
     { id: 'strategies', label: 'Strategies', href: '/strategies', external: true },
+    { id: 'tools', label: 'Tools', href: '/tools' },
   ];
 
   const handleNavClick = (id: string) => {
@@ -29,7 +31,8 @@ export default function TopAppBar() {
   const isLinkActive = (id: string) => {
     if (id === 'blog') return isBlogActive;
     if (id === 'strategies') return isStrategiesActive;
-    return !isBlogActive && !isStrategiesActive && activeItem === id;
+    if (id === 'tools') return isToolsActive;
+    return !isBlogActive && !isStrategiesActive && !isToolsActive && activeItem === id;
   };
 
   return (

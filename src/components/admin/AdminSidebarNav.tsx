@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Newspaper } from "lucide-react";
+import { BookOpen, Newspaper, Wrench } from "lucide-react";
 import { useSidebar } from "./AdminShell";
 
 const links = [
   { href: "/admin/strategies", label: "Strategies", icon: BookOpen },
   { href: "/admin/blog", label: "Blog", icon: Newspaper },
+  { href: "/admin/tools", label: "Tools", icon: Wrench },
 ];
 
 export default function AdminSidebarNav() {

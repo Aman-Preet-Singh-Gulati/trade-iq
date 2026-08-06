@@ -29,6 +29,7 @@ export default function Footer() {
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="#faq">FAQ</a>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/blog">Blog</a>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/strategies">Strategies</a>
+          <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/tools">Tools</a>
         </div>
         <div>
           <span className="font-label-caps text-label-caps text-on-primary mb-4">STAY UPDATED</span>

@@ -24,6 +24,7 @@ export default function BlogFooter() {
         <div className="flex flex-col gap-2">
           <span className="font-label-caps text-label-caps text-on-primary mb-4">EXPLORE</span>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/blog">Latest Stories</a>
+          <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/tools">Tools</a>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/">Home</a>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/#curriculum">Curriculum</a>
           <a className="font-body-sm text-on-primary-container hover:text-on-primary transition-colors" href="/#register">Join Program</a>

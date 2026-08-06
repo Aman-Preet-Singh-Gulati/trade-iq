@@ -51,4 +51,21 @@ export default defineSchema({
     .index("by_status_and_publishedAt", ["status", "publishedAt"])
     .index("by_status_and_featured", ["status", "featured"])
     .index("by_category_and_status", ["category", "status"]),
+
+  tools: defineTable({
+    title: v.string(),
+    description: v.string(),
+    coverImage: v.optional(coverImage),
+    externalUrl: v.string(),
+    category: v.string(),
+    icon: v.string(),
+    featured: v.boolean(),
+    pricing: v.optional(v.union(v.literal("FREE"), v.literal("FREEMIUM"), v.literal("PAID"))),
+    publishedAt: v.number(),
+    status: v.union(v.literal("DRAFT"), v.literal("PUBLISHED")),
+    createdBy: v.id("users"),
+    updatedAt: v.number(),
+  })
+    .index("by_status_and_publishedAt", ["status", "publishedAt"])
+    .index("by_category_and_status", ["category", "status"]),
 });

@@ -15,6 +15,7 @@ const drawerLinks = [
   { id: 'faq', label: 'FAQ', href: '/#faq' },
   { id: 'blog', label: 'Blog', href: '/blog', external: true },
   { id: 'strategies', label: 'Strategies', href: '/strategies', external: true },
+  { id: 'tools', label: 'Tools', href: '/tools' },
 ];
 
 export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
@@ -26,6 +27,7 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
       return pathname === '/strategies' || (pathname?.startsWith('/strategy/') ?? false);
     }
     if (id === 'home') return pathname === '/';
+    if (id === 'tools') return pathname === '/tools';
     return false;
   };
 
