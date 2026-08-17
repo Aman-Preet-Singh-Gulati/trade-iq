@@ -14,6 +14,8 @@ import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as lib_authGuard from "../lib/authGuard.js";
 import type * as lib_fileValidation from "../lib/fileValidation.js";
+import type * as lib_passwordPolicy from "../lib/passwordPolicy.js";
+import type * as rotateAdminPassword from "../rotateAdminPassword.js";
 import type * as seedAdmin from "../seedAdmin.js";
 import type * as strategies from "../strategies.js";
 import type * as tools from "../tools.js";
@@ -31,6 +33,8 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   "lib/authGuard": typeof lib_authGuard;
   "lib/fileValidation": typeof lib_fileValidation;
+  "lib/passwordPolicy": typeof lib_passwordPolicy;
+  rotateAdminPassword: typeof rotateAdminPassword;
   seedAdmin: typeof seedAdmin;
   strategies: typeof strategies;
   tools: typeof tools;
@@ -62,4 +66,6 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {};
+export declare const components: {
+  rateLimiter: import("@convex-dev/rate-limiter/_generated/component.js").ComponentApi<"rateLimiter">;
+};
