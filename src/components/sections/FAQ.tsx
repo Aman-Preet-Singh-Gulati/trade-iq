@@ -11,7 +11,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-margin-lg px-gutter-md bg-surface-container-lowest" id="faq">
+    <section className="py-margin-lg px-gutter-md bg-surface-container-low" id="faq">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="font-headline-lg text-headline-lg text-primary mb-4">Frequently Asked Questions</h2>
@@ -19,9 +19,9 @@ export default function FAQ() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
           {faqs.map((faq, index) => (
-            <div key={index} className={`border border-outline-variant rounded-lg overflow-hidden transition-all hover:border-primary ${activeIndex === index ? 'border-primary' : ''}`}>
-              <button 
-                className="w-full p-6 text-left flex justify-between items-center bg-surface-container-low" 
+            <div key={index} className="border border-outline-variant rounded-lg overflow-hidden transition-all">
+              <button
+                className="w-full p-6 text-left flex justify-between items-center bg-surface-container"
                 onClick={() => toggleAccordion(index)}
               >
                 <span className="font-body-md font-bold text-primary">{faq.question}</span>
@@ -30,7 +30,7 @@ export default function FAQ() {
                 </span>
               </button>
               <div 
-                className="bg-surface-container-lowest transition-all duration-300 ease-in-out overflow-hidden"
+                className="bg-surface-container transition-all duration-300 ease-in-out overflow-hidden"
                 style={{ maxHeight: activeIndex === index ? '500px' : '0' }}
               >
                 <div className="p-6 pt-0 font-body-sm text-secondary">

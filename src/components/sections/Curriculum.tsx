@@ -24,29 +24,29 @@ export default function Curriculum() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="py-margin-lg px-gutter-md bg-surface-container-low overflow-hidden" id="curriculum">
+    <section className="py-margin-lg px-gutter-md bg-background overflow-hidden" id="curriculum">
       <div className="max-w-container-max mx-auto">
         <div className="text-center mb-12">
-          <span className="font-label-caps text-label-caps text-primary mb-2 block">CURRICULUM OVERVIEW</span>
+          <span className="font-label-caps text-label-caps text-primary-fixed mb-2 block">CURRICULUM OVERVIEW</span>
           <h2 className="font-headline-lg text-headline-lg text-primary mb-4">A Comprehensive Roadmap to Mastery</h2>
-          <div className="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
+          <div className="w-20 h-1.5 bg-primary-fixed mx-auto rounded-full"></div>
           <p className="font-body-md text-secondary mt-6 max-w-2xl mx-auto">
             12 specialized modules designed to take you from market basics to building your own AI-powered trading systems.
           </p>
         </div>
 
         {/* Embla Carousel */}
-        <div className="relative max-w-6xl mx-auto">
+        <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex touch-pan-y -ml-4">
+            <div className="flex touch-pan-y -ml-5">
               {curriculumModules.map((module, index) => (
-                <div 
-                  key={index} 
-                  className="pl-4 flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
+                <div
+                  key={index}
+                  className="pl-5 flex-[0_0_85%] min-w-0 sm:flex-[0_0_47%] lg:flex-[0_0_31%]"
                 >
-                  <div className="h-full bg-surface-container-lowest p-8 border border-outline-variant/30 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-primary group flex flex-col">
+                  <div className="h-full bg-surface-container p-7 border border-outline-variant rounded-xl shadow-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary-fixed/20 hover:-translate-y-0.5 group flex flex-col">
                     <div className="flex items-center gap-4 mb-6">
-                      <div className="w-12 h-12 bg-primary text-on-primary rounded-lg flex items-center justify-center font-bold text-xl shrink-0">
+                      <div className="w-11 h-11 bg-primary-fixed text-on-primary-fixed rounded-lg flex items-center justify-center font-bold text-xl shrink-0">
                         {module.moduleNumber}
                       </div>
                       <h3 className="font-bold text-lg text-primary leading-tight">
@@ -57,7 +57,7 @@ export default function Curriculum() {
                     <ul className="space-y-3 flex-grow">
                       {module.topics.map((topic, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <span className="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">
+                          <span className="material-symbols-outlined text-primary-fixed text-[20px] shrink-0 mt-0.5">
                             check_circle
                           </span>
                           <span className="font-body-sm text-secondary leading-relaxed">
@@ -78,9 +78,9 @@ export default function Curriculum() {
               onClick={scrollPrev}
               disabled={prevBtnDisabled}
               className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                prevBtnDisabled 
-                  ? 'bg-surface-container border border-outline-variant text-outline cursor-not-allowed' 
-                  : 'bg-primary text-on-primary hover:bg-primary/90 hover:scale-105 shadow-md'
+                prevBtnDisabled
+                  ? 'bg-surface-container border border-outline-variant text-outline cursor-not-allowed'
+                  : 'border border-outline-variant text-primary hover:border-primary-fixed hover:text-primary-fixed'
               }`}
               aria-label="Previous module"
             >
@@ -90,9 +90,9 @@ export default function Curriculum() {
               onClick={scrollNext}
               disabled={nextBtnDisabled}
               className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                nextBtnDisabled 
-                  ? 'bg-surface-container border border-outline-variant text-outline cursor-not-allowed' 
-                  : 'bg-primary text-on-primary hover:bg-primary/90 hover:scale-105 shadow-md'
+                nextBtnDisabled
+                  ? 'bg-surface-container border border-outline-variant text-outline cursor-not-allowed'
+                  : 'bg-primary-fixed text-on-primary-fixed hover:opacity-90'
               }`}
               aria-label="Next module"
             >

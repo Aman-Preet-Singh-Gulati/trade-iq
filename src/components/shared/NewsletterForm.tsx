@@ -23,7 +23,7 @@ const DEFAULTS = {
   },
   stacked: {
     inputClassName: "w-full bg-background/10 border border-white/20 text-white p-3.5 rounded-lg focus:outline-none focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed placeholder:text-white/40 transition-all backdrop-blur-sm",
-    buttonClassName: "w-full bg-primary-fixed text-on-primary-fixed py-3.5 rounded-lg font-bold hover:bg-white transition-all shadow-md hover:-translate-y-0.5",
+    buttonClassName: "w-full bg-primary-fixed text-on-primary-fixed py-3.5 rounded-lg font-bold hover:bg-primary-fixed-dim transition-all shadow-md hover:-translate-y-0.5",
     buttonLabel: "Join The List",
     buttonPendingLabel: "Joining...",
     placeholder: "Professional Email",
@@ -35,7 +35,7 @@ export default function NewsletterForm({
   placeholder,
   inputClassName,
   buttonClassName,
-  successClassName = "text-[#4caf50] font-body-sm mt-2",
+  successClassName = "text-primary-fixed font-body-sm mt-2",
   errorClassName = "text-error font-body-sm mt-2",
   buttonLabel,
   buttonPendingLabel,

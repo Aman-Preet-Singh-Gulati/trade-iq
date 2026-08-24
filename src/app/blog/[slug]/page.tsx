@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <BlogTopBar />
       <main className="w-full pt-24 max-w-container-max mx-auto px-gutter-md">
         <div className="mt-8 mb-10">
-          <Link href="/blog" className="inline-flex items-center gap-1 text-secondary hover:text-primary font-body-sm transition-colors mb-6">
+          <Link href="/blog" className="inline-flex items-center gap-1 text-secondary hover:text-primary-fixed font-body-sm transition-colors mb-6">
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Back to Blog
           </Link>
@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               className="absolute inset-0 bg-cover bg-center"
               style={{ backgroundImage: `url('${post.coverImageUrl}')` }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
               <span className="inline-block w-fit px-3 py-1 mb-4 bg-primary-fixed/20 border border-primary-fixed/30 text-primary-fixed font-label-caps text-[10px] rounded tracking-widest uppercase backdrop-blur-sm">
                 {post.category.name}

@@ -6,7 +6,7 @@ export default function StrategyCard({ strategy }: { strategy: StrategyCardDTO }
   return (
     <Link
       href={`/strategy/${strategy.slug}`}
-      className="group flex flex-col bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden transition-all duration-300 hover:border-primary-container hover:-translate-y-1 hover:shadow-lg"
+      className="group flex flex-col bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden transition-all duration-300 hover:border-primary-fixed hover:-translate-y-1 hover:shadow-lg"
     >
       <StrategyThumbnail
         icon={strategy.icon}
@@ -28,7 +28,7 @@ export default function StrategyCard({ strategy }: { strategy: StrategyCardDTO }
         <p className="font-body-sm text-body-sm text-secondary overflow-hidden max-h-[3lh] mb-6 flex-1">
           {strategy.excerpt}
         </p>
-        <div className="mt-auto flex items-center text-primary font-bold text-body-sm">
+        <div className="mt-auto flex items-center text-primary-fixed font-bold text-body-sm">
           <span>Download Template</span>
           <span className="material-symbols-outlined ml-2 text-sm group-hover:translate-x-1 transition-transform">
             arrow_forward

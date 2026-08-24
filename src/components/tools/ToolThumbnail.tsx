@@ -39,7 +39,7 @@ export default function ToolThumbnail({
 }: ToolThumbnailProps) {
   if (coverImageUrl) {
     return (
-      <div className={`relative ${heightClassName} overflow-hidden bg-primary ${className ?? ""}`}>
+      <div className={`relative ${heightClassName} overflow-hidden bg-surface-container ${className ?? ""}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={coverImageUrl} alt={title} className="absolute inset-0 w-full h-full object-cover" />
       </div>
@@ -47,13 +47,13 @@ export default function ToolThumbnail({
   }
 
   return (
-    <div className={`relative ${heightClassName} overflow-hidden bg-primary ${className ?? ""}`}>
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-container to-primary" />
+    <div className={`relative ${heightClassName} overflow-hidden bg-surface-container ${className ?? ""}`}>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-container to-tertiary-container" />
       <div className="absolute -right-8 -top-8 w-32 h-32 bg-primary-fixed/20 rounded-full blur-2xl" />
       <div className="absolute -left-6 -bottom-10 w-28 h-28 bg-primary-fixed/10 rounded-full blur-2xl" />
       {getPattern(categorySlug)}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-20 h-20 rounded-full bg-on-primary/15 backdrop-blur-sm ring-1 ring-on-primary/20 flex items-center justify-center shadow-lg">
+        <div className="w-20 h-20 rounded-full bg-white/15 backdrop-blur-sm ring-1 ring-white/20 flex items-center justify-center shadow-lg">
           <span className="text-4xl drop-shadow-lg select-none">{icon}</span>
         </div>
       </div>

@@ -58,7 +58,7 @@ export default async function StrategyPage({ params }: StrategyPageProps) {
         <div className="max-w-[708px] mx-auto mt-margin-lg">
           <Link
             href="/strategies"
-            className="inline-flex items-center gap-1 text-secondary hover:text-primary font-body-sm transition-colors mb-10"
+            className="inline-flex items-center gap-1 text-secondary hover:text-primary-fixed font-body-sm transition-colors mb-10"
           >
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Back to Strategies
@@ -70,7 +70,7 @@ export default async function StrategyPage({ params }: StrategyPageProps) {
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${strategy.coverImageUrl}')` }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
               <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10">
                 <span className="inline-block w-fit px-3 py-1 mb-3 bg-primary-fixed/20 border border-primary-fixed/30 text-primary-fixed font-label-caps text-[10px] rounded tracking-widest uppercase backdrop-blur-sm">
                   {strategy.category.name}

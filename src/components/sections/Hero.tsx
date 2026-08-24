@@ -3,6 +3,67 @@
 import React from 'react';
 // import { useState } from 'react'; // needed again once the video block below is restored
 
+function HeroNodeGraph() {
+  const nodes: { cx: number; cy: number; r: number; color: "primary" | "tertiary"; delay: string }[] = [
+    { cx: 60, cy: 80, r: 4, color: "primary", delay: "0s" },
+    { cx: 380, cy: 90, r: 5, color: "primary", delay: ".6s" },
+    { cx: 420, cy: 300, r: 4, color: "primary", delay: "1.2s" },
+    { cx: 680, cy: 120, r: 4, color: "primary", delay: "1.8s" },
+    { cx: 100, cy: 420, r: 4, color: "primary", delay: "2.4s" },
+    { cx: 560, cy: 60, r: 3, color: "primary", delay: "3s" },
+    { cx: 220, cy: 140, r: 5, color: "tertiary", delay: ".3s" },
+    { cx: 140, cy: 260, r: 4, color: "tertiary", delay: ".9s" },
+    { cx: 520, cy: 180, r: 5, color: "tertiary", delay: "1.5s" },
+    { cx: 260, cy: 340, r: 4, color: "tertiary", delay: "2.1s" },
+    { cx: 740, cy: 260, r: 4, color: "tertiary", delay: "2.7s" },
+    { cx: 600, cy: 380, r: 4, color: "tertiary", delay: "3.3s" },
+    { cx: 340, cy: 440, r: 3, color: "tertiary", delay: "3.9s" },
+    { cx: 760, cy: 380, r: 3, color: "tertiary", delay: "4.5s" },
+  ];
+  const lines: [number, number, number, number, string?][] = [
+    [60, 80, 220, 140],
+    [220, 140, 140, 260],
+    [220, 140, 380, 90],
+    [380, 90, 520, 180],
+    [520, 180, 420, 300],
+    [420, 300, 260, 340],
+    [260, 340, 140, 260],
+    [520, 180, 680, 120],
+    [680, 120, 740, 260],
+    [420, 300, 600, 380],
+    [600, 380, 740, 260],
+    [60, 80, 140, 260],
+    [380, 90, 260, 340, "2 4"],
+    [100, 420, 260, 340],
+    [340, 440, 600, 380],
+  ];
+
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full"
+      viewBox="0 0 800 500"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      <g className="stroke-primary-fixed/35" strokeWidth="1">
+        {lines.map(([x1, y1, x2, y2, dash], i) => (
+          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} strokeDasharray={dash} />
+        ))}
+      </g>
+      {nodes.map((n, i) => (
+        <circle
+          key={i}
+          cx={n.cx}
+          cy={n.cy}
+          r={n.r}
+          className={n.color === "primary" ? "fill-primary-fixed animate-node-drift" : "fill-tertiary animate-node-drift"}
+          style={{ animationDelay: n.delay, transformBox: "fill-box", transformOrigin: "center" }}
+        />
+      ))}
+    </svg>
+  );
+}
+
 function HeroShowcaseGraphic() {
   const bars = [
     { x: 40, y: 140, h: 50, delay: '0ms' },
@@ -16,30 +77,25 @@ function HeroShowcaseGraphic() {
   ];
 
   return (
-    <div className="relative aspect-video bg-gradient-to-br from-primary-container to-primary rounded-xl overflow-hidden border-4 border-white/10 shadow-2xl ring-1 ring-primary-fixed/20">
-      <div className="absolute -right-10 -top-10 w-56 h-56 bg-primary-fixed/20 rounded-full blur-3xl animate-chart-glow-drift" />
-      <div
-        className="absolute -left-8 -bottom-12 w-48 h-48 bg-primary-fixed/10 rounded-full blur-3xl animate-chart-glow-drift"
-        style={{ animationDelay: '-4.5s' }}
-      />
-
-      {/* Slow light sweep for a "live dashboard" feel */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-y-0 -left-1/4 w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-chart-scan" />
-      </div>
+    <div className="relative aspect-video bg-surface-container rounded-2xl overflow-hidden border border-outline-variant shadow-2xl">
+      {/* "LIVE" badge — matches the mockup's chart panel treatment */}
+      <span className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/30 border border-white/10 text-[10px] font-mono font-bold tracking-wider text-primary-fixed">
+        <span className="w-1.5 h-1.5 rounded-full bg-primary-fixed animate-pulse" />
+        LIVE
+      </span>
 
       <svg
-        className="absolute inset-0 w-full h-full opacity-40"
+        className="absolute inset-0 w-full h-full"
         viewBox="0 0 400 225"
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
       >
-        <g className="stroke-primary-fixed/20" strokeWidth="1">
+        <g className="stroke-outline-variant" strokeWidth="1" opacity="0.6">
           <line x1="0" y1="56" x2="400" y2="56" />
           <line x1="0" y1="112" x2="400" y2="112" />
           <line x1="0" y1="168" x2="400" y2="168" />
         </g>
-        <g className="fill-primary-fixed/30">
+        <g className="fill-primary-fixed/55">
           {bars.map((bar) => (
             <rect
               key={bar.x}
@@ -55,7 +111,7 @@ function HeroShowcaseGraphic() {
         </g>
         <path
           d="M30 150 L95 100 L160 130 L225 70 L290 95 L360 45"
-          className="stroke-primary-fixed/70 animate-chart-draw"
+          className="stroke-primary-fixed animate-chart-draw"
           fill="none"
           strokeWidth="2.5"
           strokeLinecap="round"
@@ -64,7 +120,7 @@ function HeroShowcaseGraphic() {
           strokeDasharray={1}
         />
         <g>
-          <circle cx="360" cy="45" r="7" className="fill-primary-fixed/40 animate-ping" style={{ animationDelay: '2.7s', transformOrigin: '360px 45px', transformBox: 'fill-box' }} />
+          <circle cx="360" cy="45" r="7" className="fill-primary-fixed/35 animate-ping" style={{ animationDelay: '2.7s', transformOrigin: '360px 45px', transformBox: 'fill-box' }} />
           <circle cx="360" cy="45" r="4" className="fill-primary-fixed" />
         </g>
       </svg>
@@ -77,10 +133,21 @@ export default function Hero() {
     <section className="relative bg-primary-container py-16 md:py-24 px-gutter-md overflow-hidden" id="hero">
       <div className="max-w-container-max mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="contents lg:block text-on-primary">
+          <div className="contents lg:block text-on-primary-container">
             <div className="order-1 lg:order-none">
-              <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary-fixed/20 text-primary-fixed font-label-caps text-label-caps border border-primary-fixed/30">
-                INSTITUTIONAL-STYLE ALGO TRADING PROGRAM
+              <div className="w-fit mb-6">
+                <div className="flex flex-wrap justify-between gap-y-2 mb-3" aria-hidden="true">
+                  {Array.from({ length: 20 }).map((_, i) => (
+                    <span
+                      key={i}
+                      className="w-2 h-2 rounded-full bg-primary-fixed/70"
+                      style={{ animation: `pulse-dot 1.8s ease-in-out ${i * 0.12}s infinite` }}
+                    />
+                  ))}
+                </div>
+                <div className="px-4 py-1.5 rounded-full bg-primary-fixed/20 text-primary-fixed font-label-caps text-label-caps border border-primary-fixed/30">
+                  INSTITUTIONAL-STYLE ALGO TRADING PROGRAM
+                </div>
               </div>
               <h1 className="font-headline-xl text-4xl lg:text-[40px] font-extrabold mb-6 leading-[1.1]">
                 Eliminate Emotional Bias. Trade Like Institutions.<br /> Execute Like an Algorithm.
@@ -91,10 +158,10 @@ export default function Hero() {
             </div>
             <div className="order-3 lg:order-none w-full">
               <div className="flex flex-col sm:flex-row gap-4 mb-10">
-              <a className="bg-primary-fixed text-on-primary-fixed px-8 py-4 rounded-lg font-bold text-center hover:bg-primary-fixed-dim transition-all shadow-lg hover:-translate-y-0.5" href="#register">
+              <a className="bg-primary-fixed text-on-primary-fixed px-8 py-4 rounded-lg font-bold text-center hover:opacity-90 transition-all shadow-lg" href="#register">
                 Enroll now
               </a>
-              <a className="border border-on-primary-container text-on-primary px-8 py-4 rounded-lg font-bold text-center hover:bg-on-primary-container hover:text-primary transition-all" href="#curriculum">
+              <a className="border border-on-primary-container text-on-primary-container px-8 py-4 rounded-lg font-bold text-center hover:border-primary-fixed hover:text-primary-fixed transition-all" href="#curriculum">
                 View Course Modules
               </a>
             </div>
@@ -135,7 +202,7 @@ export default function Hero() {
               ) : (
                 <>
                   <div className="absolute inset-0 bg-cover bg-center opacity-70 group-hover:scale-105 transition-transform duration-700" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbC3RbESKrmWXzVnXO0_IgsXYmWTHDJjOBUSCvYqwRmZjsaxgcpCJjefOvx5opP79H0XzafsUg_XfWkhoiqX6VL6dmHIJpnVc3kl1fMDqAAb-YvgeT2lBEk2OIdPxDwYnSp3w16Y_22NiozaPAf6Wlre3YN-AeofGhTefv7aIW9E-zQBRXsD84UHlvwicAh_ndKzZD9uZQg41GRv7XNAPLSICWxHT4u_nD67rybcL9P7nubeVaEZ0MEeooqWhn0_JfIkE_Sx_59w')" }}></div>
-                  <div className="absolute inset-0 bg-primary/20 flex items-center justify-center transition-all group-hover:bg-primary/30">
+                  <div className="absolute inset-0 bg-background/20 flex items-center justify-center transition-all group-hover:bg-background/30">
                     <button
                       className="w-20 h-20 bg-primary-fixed text-on-primary-fixed rounded-full flex items-center justify-center shadow-2xl transform transition-transform group-hover:scale-110"
                       onClick={() => setIsPlaying(true)}
@@ -157,15 +224,8 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] -z-0">
-        <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern height="40" id="grid" patternUnits="userSpaceOnUse" width="40">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"></path>
-            </pattern>
-          </defs>
-          <rect fill="url(#grid)" height="100%" width="100%"></rect>
-        </svg>
+      <div className="absolute inset-0 pointer-events-none opacity-20 -z-0">
+        <HeroNodeGraph />
       </div>
     </section>
   );

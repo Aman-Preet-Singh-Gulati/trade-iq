@@ -6,7 +6,7 @@ export default function PostCard({ post }: { post: PostCardDTO }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group cursor-pointer flex flex-col h-full bg-surface-container-lowest border border-outline-variant/50 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 md:hover:-translate-y-2 hover:shadow-lg md:hover:shadow-xl hover:border-primary"
+      className="group cursor-pointer flex flex-col h-full bg-surface-container-lowest border border-outline-variant/50 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 md:hover:-translate-y-2 hover:shadow-lg md:hover:shadow-xl hover:border-primary-fixed"
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-surface-container border-b border-outline-variant/30">
         <img
@@ -28,7 +28,7 @@ export default function PostCard({ post }: { post: PostCardDTO }) {
           {post.title}
         </h3>
         <p className="text-secondary font-body-sm leading-relaxed overflow-hidden max-h-[3lh] mb-5 flex-1">{post.excerpt}</p>
-        <div className="flex items-center text-primary-fixed-dim group-hover:text-primary text-sm font-bold mt-auto pt-4 border-t border-outline-variant/40 transition-colors">
+        <div className="flex items-center text-primary-fixed-dim group-hover:text-primary-fixed text-sm font-bold mt-auto pt-4 border-t border-outline-variant/40 transition-colors">
           Read Full Story
           <span className="material-symbols-outlined text-base ml-1 group-hover:translate-x-1 transition-transform">
             arrow_forward

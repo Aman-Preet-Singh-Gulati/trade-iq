@@ -102,7 +102,7 @@ export default function Register() {
               checked={formData[field.id] === option}
               onChange={handleChange}
               required={field.required}
-              className="w-5 h-5 text-primary bg-surface border-outline-variant focus:ring-primary focus:ring-offset-surface-container-lowest transition-all"
+              className="w-5 h-5 text-primary-fixed bg-surface border-outline-variant focus:ring-primary-fixed focus:ring-offset-surface-container-lowest transition-all"
             />
             <span className="font-body-md text-secondary group-hover:text-primary transition-colors">{option}</span>
           </label>
@@ -137,7 +137,7 @@ export default function Register() {
         {isSmallInput && (
           <input
             required={field.required}
-            className="w-full bg-surface border border-outline-variant rounded p-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+            className="w-full bg-surface border border-outline-variant rounded p-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none"
             name={field.id}
             value={formData[field.id] || ""}
             onChange={handleChange}
@@ -149,7 +149,7 @@ export default function Register() {
         {field.type === 'textarea' && (
           <textarea
             required={field.required}
-            className="w-full bg-surface border border-outline-variant rounded p-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none min-h-[120px]"
+            className="w-full bg-surface border border-outline-variant rounded p-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none min-h-[120px]"
             name={field.id}
             value={formData[field.id] || ""}
             onChange={handleChange}
@@ -164,14 +164,14 @@ export default function Register() {
 
   return (
     <section className="py-margin-lg px-gutter-md" id="register">
-      <div className="max-w-container-max mx-auto">
-        <div className="bg-primary-container rounded-xl overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[600px]">
+      <div className="max-w-6xl mx-auto">
+        <div className="bg-gradient-to-br from-[#0c2118] to-[#241017] rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[600px]">
 
           {/* Left Side Info Panel */}
-          <div className="lg:w-2/5 p-10 md:p-16 text-on-primary flex flex-col justify-between">
+          <div className="lg:w-2/5 p-10 md:p-14 text-on-primary-container flex flex-col justify-between">
             <div>
-              <h2 className="font-headline-xl text-headline-xl mb-6">Secure Your Spot</h2>
-              <p className="font-headline-xl font-bold text-2xl mb-8">
+              <h2 className="font-headline-xl text-2xl md:text-3xl font-extrabold mb-5">Secure Your Spot</h2>
+              <p className="font-headline-xl font-bold text-2xl mb-6">
                 Program Investment - ₹32,000
               </p>
               <p className="font-body-md text-on-primary-container mb-8">
@@ -210,11 +210,11 @@ export default function Register() {
           </div>
 
           {/* Right Side Form Panel */}
-          <div className="lg:w-3/5 bg-surface-container-lowest p-10 md:p-16 relative">
+          <div className="lg:w-3/5 bg-surface-container-lowest p-10 md:p-14 relative">
             {isSuccess ? (
               <div className="h-full flex flex-col items-center justify-center text-center animate-fade-in">
                 <div className="w-20 h-20 bg-primary-fixed rounded-full flex items-center justify-center mb-6">
-                  <span className="material-symbols-outlined text-[40px] text-primary">task_alt</span>
+                  <span className="material-symbols-outlined text-[40px] text-on-primary-fixed">task_alt</span>
                 </div>
                 <h3 className="font-headline-lg text-primary mb-4">Application Received!</h3>
                 <p className="font-body-md text-secondary max-w-md mb-8">
@@ -261,7 +261,7 @@ export default function Register() {
                 {/* Form Navigation Controls */}
                 <div className="mt-10 flex flex-col-reverse sm:flex-row items-center justify-between gap-4 pt-6 border-t border-outline-variant/30">
                   {currentStep > 1 ? (
-                    <button type="button" onClick={handleBack} className="text-secondary font-bold hover:text-primary transition-colors flex items-center justify-center gap-2 w-full sm:w-auto py-3">
+                    <button type="button" onClick={handleBack} className="text-secondary font-bold hover:text-primary-fixed transition-colors flex items-center justify-center gap-2 w-full sm:w-auto py-3">
                       <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                       Back
                     </button>
@@ -270,12 +270,12 @@ export default function Register() {
                   )}
 
                   {currentStep < totalSteps ? (
-                    <button type="submit" className="bg-primary text-on-primary font-bold px-8 py-3 rounded transition-all hover:bg-primary/90 flex items-center justify-center gap-2 w-full sm:w-auto">
+                    <button type="submit" className="bg-primary-fixed text-on-primary-fixed font-bold px-8 py-3 rounded transition-all hover:opacity-90 flex items-center justify-center gap-2 w-full sm:w-auto">
                       Next
                       <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
                     </button>
                   ) : (
-                    <button type="submit" disabled={isSubmitting} className="bg-primary text-on-primary font-bold px-10 py-3 rounded transition-all hover:bg-primary/90 flex items-center justify-center gap-2 disabled:opacity-70 w-full sm:w-auto text-center">
+                    <button type="submit" disabled={isSubmitting} className="bg-primary-fixed text-on-primary-fixed font-bold px-10 py-3 rounded transition-all hover:opacity-90 flex items-center justify-center gap-2 disabled:opacity-70 w-full sm:w-auto text-center">
                       {isSubmitting ? 'Submitting...' : 'Submit Application'}
                     </button>
                   )}

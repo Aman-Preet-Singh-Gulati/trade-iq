@@ -23,8 +23,8 @@ export default function Sidebar({ categories, trending, activeSlug }: SidebarPro
           </div>
           <NewsletterForm
             layout="stacked"
-            inputClassName="w-full bg-background border border-outline px-4 py-4 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none text-body-md"
-            buttonClassName="w-full bg-primary text-on-primary py-4 px-8 rounded-lg font-bold transition-opacity hover:opacity-90"
+            inputClassName="w-full bg-background border border-outline px-4 py-4 rounded-lg focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed outline-none text-body-md"
+            buttonClassName="w-full bg-primary-fixed text-on-primary-fixed py-4 px-8 rounded-lg font-bold transition-opacity hover:opacity-90"
             placeholder="Professional Email Address"
             buttonLabel="Subscribe Now"
             buttonPendingLabel="Subscribing..."
@@ -43,9 +43,9 @@ export default function Sidebar({ categories, trending, activeSlug }: SidebarPro
       <div className="hidden md:block space-y-12">
         <div
           id="blog-newsletter"
-          className="bg-primary-container text-on-primary-container p-8 rounded-xl shadow-lg border border-primary/20 relative overflow-hidden scroll-mt-24"
+          className="bg-primary-container text-on-primary-container p-8 rounded-xl shadow-lg border border-primary-fixed/20 relative overflow-hidden scroll-mt-24"
         >
-          <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary/30 rounded-full blur-2xl" />
+          <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary-fixed/30 rounded-full blur-2xl" />
           <h4 className="font-headline-lg font-bold text-white mb-3 text-2xl relative z-10">The Weekly Edge</h4>
           <p className="text-on-primary-container/80 font-body-sm mb-6 relative z-10">
             Join 45,000+ traders receiving our institutional-grade market analysis and strategy updates every Sunday.
