@@ -23,7 +23,7 @@ export const TeamSection = React.forwardRef<HTMLDivElement, TeamSectionProps>(
       <section
         ref={ref}
         className={cn(
-          "py-margin-lg px-gutter-md relative w-full overflow-hidden bg-background",
+          "py-margin-lg px-gutter-md relative w-full overflow-hidden bg-surface-container-low",
           className
         )}
         {...props}
@@ -32,9 +32,9 @@ export const TeamSection = React.forwardRef<HTMLDivElement, TeamSectionProps>(
           <div className="flex flex-col items-center justify-center gap-12 text-center">
             {/* Header Section */}
             <div className="text-center w-full">
-              <span className="font-label-caps text-label-caps text-primary mb-2 block">TRADEIQ EXPERTS</span>
+              <span className="font-label-caps text-label-caps text-primary-fixed mb-2 block">TRADEIQ EXPERTS</span>
               <h2 className="font-headline-lg text-headline-lg text-primary mb-4">Meet Our Team</h2>
-              <div className="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
+              <div className="w-20 h-1.5 bg-primary-fixed mx-auto rounded-full"></div>
             </div>
 
             {/* Team Members Grid */}
@@ -42,17 +42,17 @@ export const TeamSection = React.forwardRef<HTMLDivElement, TeamSectionProps>(
               {members.slice(0, 2).map((member, index) => (
                 <div
                   key={index}
-                  className="group relative flex flex-col items-center justify-end overflow-hidden rounded-xl bg-surface-container-low p-6 text-center shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-2xl border border-outline-variant/30 hover:border-primary/50 hover:bg-primary/5"
+                  className="group relative flex flex-col items-center justify-end overflow-hidden rounded-xl bg-surface-container p-6 text-center shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-2xl border border-outline-variant hover:border-primary-fixed/50 hover:bg-primary-fixed/5"
                 >
                   {/* Background wave animation */}
                   <div
-                    className="absolute bottom-0 left-0 right-0 h-1/2 origin-bottom scale-y-0 transform rounded-t-full bg-gradient-to-t from-primary/20 to-transparent transition-transform duration-500 ease-out group-hover:scale-y-100"
+                    className="absolute bottom-0 left-0 right-0 h-1/2 origin-bottom scale-y-0 transform rounded-t-full bg-gradient-to-t from-primary-fixed/20 to-transparent transition-transform duration-500 ease-out group-hover:scale-y-100"
                     style={{ transitionDelay: `${index * 50}ms` }}
                   />
 
                   {/* Member Image with mask and border animation */}
                   <div
-                    className="relative z-10 h-36 w-36 overflow-hidden rounded-full border-4 border-transparent bg-primary-container/10 transition-all duration-500 ease-out group-hover:border-primary/50 group-hover:scale-105"
+                    className="relative z-10 h-36 w-36 overflow-hidden rounded-full border-4 border-transparent bg-primary-container/10 transition-all duration-500 ease-out group-hover:border-primary-fixed/50 group-hover:scale-105"
                     style={{ transitionDelay: `${index * 100}ms` }}
                   >
                     <img
@@ -78,7 +78,7 @@ export const TeamSection = React.forwardRef<HTMLDivElement, TeamSectionProps>(
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-secondary hover:text-primary transition-colors bg-surface rounded-full p-2 border border-outline-variant/50"
+                          className="text-secondary hover:text-primary-fixed transition-colors bg-surface rounded-full p-2 border border-outline-variant/50"
                         >
                           <link.icon className="h-4 w-4" />
                         </a>

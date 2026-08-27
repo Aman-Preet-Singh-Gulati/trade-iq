@@ -62,7 +62,7 @@ export default function LoadMoreButton({ category, q, limit, initialHasMore }: L
           <button
             onClick={handleLoadMore}
             disabled={isLoading}
-            className="border border-outline-variant text-primary px-10 py-3 rounded-lg font-bold hover:bg-surface-variant transition-colors disabled:opacity-60"
+            className="border border-outline-variant text-primary-fixed px-10 py-3 rounded-lg font-bold hover:border-primary-fixed hover:bg-primary-fixed/10 transition-colors disabled:opacity-60"
           >
             {isLoading ? 'Loading...' : 'Load More Insights'}
           </button>

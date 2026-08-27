@@ -13,8 +13,8 @@ const drawerLinks = [
   { id: 'curriculum', label: 'Curriculum', href: '/#curriculum' },
   { id: 'register', label: 'Join', href: '/#register' },
   { id: 'faq', label: 'FAQ', href: '/#faq' },
-  { id: 'blog', label: 'Blog', href: '/blog', external: true },
-  { id: 'strategies', label: 'Strategies', href: '/strategies', external: true },
+  { id: 'blog', label: 'Blog', href: '/blog' },
+  { id: 'strategies', label: 'Strategies', href: '/strategies' },
   { id: 'tools', label: 'Tools', href: '/tools' },
 ];
 
@@ -33,16 +33,16 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
 
   return (
     <div
-      className={`fixed inset-0 z-[60] bg-primary transform transition-transform duration-300 ease-in-out md:hidden ${
+      className={`fixed inset-0 z-[60] bg-surface transform transition-transform duration-300 ease-in-out md:hidden ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
       <div className="flex flex-col h-full p-gutter-md">
         <div className="flex justify-between items-center mb-12">
-          <span className="font-headline-lg-mobile text-headline-lg-mobile font-extrabold text-on-primary">
+          <span className="font-headline-lg-mobile text-headline-lg-mobile font-extrabold text-on-surface">
             TradeIQ
           </span>
-          <button className="text-on-primary p-2" onClick={onClose} aria-label="Close menu">
+          <button className="text-on-surface p-2" onClick={onClose} aria-label="Close menu">
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
@@ -52,9 +52,7 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
               key={link.id}
               href={link.href}
               onClick={onClose}
-              target={link.external ? '_blank' : undefined}
-              rel={link.external ? 'noopener noreferrer' : undefined}
-              className={`font-headline-lg text-on-primary ${isActive(link.id) ? '' : 'opacity-60'}`}
+              className={`font-headline-lg transition-colors hover:text-primary-fixed ${isActive(link.id) ? 'text-primary-fixed' : 'text-on-surface opacity-60'}`}
             >
               {link.label}
             </Link>

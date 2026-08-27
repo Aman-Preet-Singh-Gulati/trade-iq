@@ -39,7 +39,7 @@ export default function BlogHero({ post, query, activeCategory }: BlogHeroProps)
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
             style={{ backgroundImage: `url('${post.coverImageUrl}')` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-center p-8 md:px-12 max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="inline-block px-3 py-1 bg-primary-fixed/20 border border-primary-fixed/30 text-primary-fixed font-label-caps text-[10px] rounded tracking-widest uppercase backdrop-blur-sm">

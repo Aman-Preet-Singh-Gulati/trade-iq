@@ -29,7 +29,7 @@ export default function CategoryFilter({
   if (variant === 'pills') {
     const pillClass = (isActive: boolean) =>
       isActive
-        ? 'px-5 py-2 bg-primary text-on-primary rounded-full font-label-caps text-label-caps whitespace-nowrap transition-all'
+        ? 'px-5 py-2 bg-primary-fixed text-on-primary-fixed rounded-full font-label-caps text-label-caps whitespace-nowrap transition-all'
         : 'px-5 py-2 border border-outline-variant text-secondary rounded-full font-label-caps text-label-caps whitespace-nowrap hover:bg-surface-container-low transition-all';
 
     return (
@@ -52,8 +52,8 @@ export default function CategoryFilter({
 
   const tabClass = (isActive: boolean) =>
     isActive
-      ? 'text-primary font-bold border-b-2 border-primary pb-4 whitespace-nowrap'
-      : 'text-secondary hover:text-primary pb-4 whitespace-nowrap transition-colors';
+      ? 'text-primary-fixed font-bold border-b-2 border-primary-fixed pb-4 whitespace-nowrap'
+      : 'text-secondary hover:text-primary-fixed pb-4 whitespace-nowrap transition-colors';
 
   return (
     <div className="mb-8 sticky top-24 z-40 bg-background -mx-gutter-md px-gutter-md py-4 border-b border-outline-variant md:static md:top-auto md:z-auto md:mx-0 md:px-0 md:py-0 md:pb-4">

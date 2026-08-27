@@ -28,7 +28,7 @@ export default function SearchBar({ initialQuery = '', activeCategory }: SearchB
         search
       </span>
       <input
-        className="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all"
+        className="w-full pl-10 pr-4 py-3 bg-surface-container border border-outline-variant rounded focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed outline-none transition-all"
         placeholder="Search articles..."
         type="text"
         value={query}

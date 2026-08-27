@@ -18,8 +18,8 @@ export default function TopAppBar() {
     { id: 'curriculum', label: 'Curriculum' },
     { id: 'register', label: 'Join' },
     { id: 'faq', label: 'FAQ' },
-    { id: 'blog', label: 'Blog', href: '/blog', external: true },
-    { id: 'strategies', label: 'Strategies', href: '/strategies', external: true },
+    { id: 'blog', label: 'Blog', href: '/blog' },
+    { id: 'strategies', label: 'Strategies', href: '/strategies' },
     { id: 'tools', label: 'Tools', href: '/tools' },
   ];
 
@@ -39,27 +39,23 @@ export default function TopAppBar() {
     <header className="fixed top-0 w-full z-50 bg-background border-b border-outline-variant">
       <div className="flex justify-between items-center h-24 px-gutter-md max-w-container-max mx-auto">
         <Link href="/" className="flex items-center gap-2 shrink-0" onClick={() => handleNavClick('hero')}>
-          <img alt="TradeIQ Logo" className="h-20 w-auto object-contain rounded-md scale-110" src="/Icon-removebg-preview.png" />
+          <img alt="TradeIQ Logo" className="h-20 w-auto object-contain rounded-md scale-110" src="/Icon-dark-mode.png" />
         </Link>
-        {!isStrategiesActive && (
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.id}
-                className={`font-label-caps text-base tracking-widest transition-colors duration-200 border-b-2 py-1 ${isLinkActive(link.id)
-                    ? 'text-primary font-extrabold border-primary'
-                    : 'text-secondary font-bold border-transparent hover:text-primary'
-                  }`}
-                href={link.href || `#${link.id}`}
-                onClick={() => handleNavClick(link.id)}
-                target={link.external ? '_blank' : undefined}
-                rel={link.external ? 'noopener noreferrer' : undefined}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        )}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.id}
+              className={`font-label-caps text-base tracking-widest transition-colors duration-200 border-b-2 py-1 ${isLinkActive(link.id)
+                  ? 'text-primary-fixed font-extrabold border-primary-fixed'
+                  : 'text-secondary font-bold border-transparent hover:text-primary-fixed'
+                }`}
+              href={link.href || `#${link.id}`}
+              onClick={() => handleNavClick(link.id)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
         <div className="flex items-center gap-4">
 
           <div className="md:hidden flex items-center">

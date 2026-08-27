@@ -61,11 +61,11 @@ export default function ToolSpotlight({ tool }: { tool: ToolCardDTO }) {
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{ backgroundImage: `url('${tool.coverImageUrl}')` }}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-transparent" />
             </>
           ) : (
             <>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-container to-primary" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-container to-tertiary-container" />
               <div className="absolute -right-8 -top-8 w-56 h-56 bg-primary-fixed/20 rounded-full blur-3xl" />
               <div className="absolute -left-10 -bottom-16 w-56 h-56 bg-primary-fixed/10 rounded-full blur-3xl" />
               {getPattern(tool.category.slug)}
