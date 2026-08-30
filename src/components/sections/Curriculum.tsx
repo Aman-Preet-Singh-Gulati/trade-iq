@@ -1,27 +1,37 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import { curriculumModules } from '@/constants/curriculum';
+import React, { useEffect, useRef, useState } from 'react';
+import { curriculumSteps } from '@/constants/curriculum';
 
 export default function Curriculum() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'start' });
-  const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
-  const [nextBtnDisabled, setNextBtnDisabled] = useState(false);
-
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
-
-  const onSelect = useCallback((emblaApi: any) => {
-    setPrevBtnDisabled(!emblaApi.canScrollPrev());
-    setNextBtnDisabled(!emblaApi.canScrollNext());
-  }, []);
+  const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
+  const [revealed, setRevealed] = useState<boolean[]>(
+    () => curriculumSteps.map(() => false)
+  );
 
   useEffect(() => {
-    if (!emblaApi) return;
-    onSelect(emblaApi);
-    emblaApi.on('reInit', onSelect).on('select', onSelect);
-  }, [emblaApi, onSelect]);
+    // Reduced-motion users see everything rendered up-front via the
+    // `motion-reduce:*` utilities below, so no special-casing is needed here.
+    const els = itemRefs.current.filter(Boolean) as HTMLLIElement[];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const index = Number((entry.target as HTMLElement).dataset.index);
+          setRevealed((prev) => {
+            if (prev[index]) return prev;
+            const next = [...prev];
+            next[index] = true;
+            return next;
+          });
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.3, rootMargin: '0px 0px -10% 0px' }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section className="py-margin-lg px-gutter-md bg-background overflow-hidden" id="curriculum">
@@ -31,75 +41,72 @@ export default function Curriculum() {
           <h2 className="font-headline-lg text-headline-lg text-primary mb-4">A Comprehensive Roadmap to Mastery</h2>
           <div className="w-20 h-1.5 bg-primary-fixed mx-auto rounded-full"></div>
           <p className="font-body-md text-secondary mt-6 max-w-2xl mx-auto">
-            12 specialized modules designed to take you from market basics to building your own AI-powered trading systems.
+            8 specialized modules designed to take you from market basics to building your own AI-powered trading systems.
           </p>
         </div>
 
-        {/* Embla Carousel */}
-        <div className="relative">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex touch-pan-y -ml-5">
-              {curriculumModules.map((module, index) => (
-                <div
-                  key={index}
-                  className="pl-5 flex-[0_0_85%] min-w-0 sm:flex-[0_0_47%] lg:flex-[0_0_31%]"
-                >
-                  <div className="h-full bg-surface-container p-7 border border-outline-variant rounded-xl shadow-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary-fixed/20 hover:-translate-y-0.5 group flex flex-col">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-11 h-11 bg-primary-fixed text-on-primary-fixed rounded-lg flex items-center justify-center font-bold text-xl shrink-0">
-                        {module.moduleNumber}
-                      </div>
-                      <h3 className="font-bold text-lg text-primary leading-tight">
-                        {module.title}
-                      </h3>
-                    </div>
-                    
-                    <ul className="space-y-3 flex-grow">
-                      {module.topics.map((topic, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="material-symbols-outlined text-primary-fixed text-[20px] shrink-0 mt-0.5">
-                            check_circle
-                          </span>
-                          <span className="font-body-sm text-secondary leading-relaxed">
-                            {topic}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <ol className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-14 max-w-5xl mx-auto">
+          {curriculumSteps.map((s, i) => {
+            // Rail runs from the first dot to the last dot of each column.
+            // Mobile = one column (first: 0, last: 7); md = two columns
+            // (firsts: 0 & 1, lasts: 6 & 7).
+            const railTop =
+              i === 0
+                ? 'top-1/2 md:top-1/2'
+                : i === 1
+                ? 'top-0 md:top-1/2'
+                : 'top-0';
+            const railBottom =
+              i === 7
+                ? 'bottom-1/2 md:bottom-1/2'
+                : i === 6
+                ? 'bottom-0 md:bottom-1/2'
+                : 'bottom-0';
 
-          {/* Navigation Buttons */}
-          <div className="flex justify-center items-center gap-4 mt-10">
-            <button
-              onClick={scrollPrev}
-              disabled={prevBtnDisabled}
-              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                prevBtnDisabled
-                  ? 'bg-surface-container border border-outline-variant text-outline cursor-not-allowed'
-                  : 'border border-outline-variant text-primary hover:border-primary-fixed hover:text-primary-fixed'
-              }`}
-              aria-label="Previous module"
-            >
-              <span className="material-symbols-outlined">arrow_back</span>
-            </button>
-            <button
-              onClick={scrollNext}
-              disabled={nextBtnDisabled}
-              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                nextBtnDisabled
-                  ? 'bg-surface-container border border-outline-variant text-outline cursor-not-allowed'
-                  : 'bg-primary-fixed text-on-primary-fixed hover:opacity-90'
-              }`}
-              aria-label="Next module"
-            >
-              <span className="material-symbols-outlined">arrow_forward</span>
-            </button>
-          </div>
-        </div>
+            return (
+              <li
+                key={s.step}
+                ref={(el) => { itemRefs.current[i] = el; }}
+                data-index={i}
+                className="relative pl-8 md:pl-9 py-5"
+              >
+                {/* base rail */}
+                <span
+                  aria-hidden="true"
+                  className={`absolute left-[5px] w-px -translate-x-1/2 bg-outline-variant ${railTop} ${railBottom}`}
+                />
+                {/* progress fill */}
+                <span
+                  aria-hidden="true"
+                  className={`absolute left-[5px] w-px -translate-x-1/2 origin-top bg-primary-fixed transition-transform duration-700 ease-out motion-reduce:transition-none motion-reduce:scale-y-100 ${railTop} ${railBottom} ${
+                    revealed[i] ? 'scale-y-100' : 'scale-y-0'
+                  }`}
+                />
+                {/* node dot */}
+                <span
+                  aria-hidden="true"
+                  className={`absolute left-[5px] top-1/2 z-10 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-4 ring-background transition-colors duration-500 motion-reduce:transition-none motion-reduce:bg-primary-fixed ${
+                    revealed[i] ? 'bg-primary-fixed' : 'bg-outline-variant'
+                  }`}
+                />
+
+                {/* pill */}
+                <div
+                  className={`group flex w-full min-h-[3.75rem] items-center gap-3 rounded-full border border-outline-variant bg-surface-container px-5 py-3 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-primary-fixed hover:bg-surface-container-high hover:shadow-[0_10px_28px_-10px] hover:shadow-primary-fixed/40 motion-reduce:transition-none motion-reduce:translate-x-0 motion-reduce:opacity-100 ${
+                    revealed[i] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-3'
+                  }`}
+                >
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold transition-transform duration-300 group-hover:scale-110">
+                    {s.step}
+                  </span>
+                  <span className="font-bold text-sm lg:text-base leading-snug text-primary">
+                    {s.title}
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
       </div>
     </section>
   );

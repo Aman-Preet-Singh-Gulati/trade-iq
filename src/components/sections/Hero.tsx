@@ -168,17 +168,17 @@ export default function Hero() {
             <div className="flex items-center gap-4 py-4 border-t border-on-primary-container/20">
               <div className="flex -space-x-3">
                 <div className="w-10 h-10 rounded-full border-2 border-primary-container bg-surface-container-high overflow-hidden">
-                  <img alt="Student" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfdEv10KEkf7kCSbRLV2B8IUvnr_1AiS75wmaHrFPKSGlaRA9qC4PRl8ASMyQZNX-hFh-vvRlz5ULenT5cn4Cudnp74Yl6ml2zIX_L1xFSwE2FwzJHoj-g1B1HrhwlVYrI1QPvcbjaibRVdXWsA3_YtsE1Nif_qaRfLb2z6zemLQBwDINK_udIhqrbfAgAjg4mAxmxihje-WgKih-uq9St2a3T-ZT3i0PQbBLCsbZsIhCFMM6Q73oa_tRnIWez7XSz83MCHINSbQ" />
+                  <img alt="Enrolled trader" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&q=80" />
                 </div>
                 <div className="w-10 h-10 rounded-full border-2 border-primary-container bg-surface-container-high overflow-hidden">
-                  <img alt="Student" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIqba4A_HAIK8wWcjWYkrsfIAj3ouRN9qZ1Oi8ylIrr8ukTsHKaecLYXYKeFvdM0jdpKEvyAXU3OzefoGJUIqonR3ZbBvwSRwdJs6e4Z0PIQqeTHzArX2Ip62A_M0awfmRPfs56rlAv9bxZF_tyUuUZcldoX45SYZ5twT2pYxdjj8eG3o_PxtgXLonyGnPwGv3nJqAL6tF98RaSOz5nbYLXvyy-OEUDNzXiPWuFuUGkanwu_-DqZUv9qMzI-dcAdx2J4hcOOgW2w" />
+                  <img alt="Enrolled trader" className="w-full h-full object-cover scale-125" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=facearea&facepad=2.5&q=80" />
                 </div>
                 <div className="w-10 h-10 rounded-full border-2 border-primary-container bg-surface-container-high overflow-hidden">
-                  <img alt="Student" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuNOydKWXkt3peWZ3hlBxOirWEOuOlmSRB2RjllciMvkB8RJBI1ZMUFK9sutFXpNqws6OoDfR1jFlGKZ0vOTGjzLqd5E0md3sLSp_dUEUdj6tErF7vm-79n1aYm5DN6CFd4k1ZJ49Xr67R5qgIbUw2YVquKL0JcZUP1SiYdZJJHm7GJ-tkPB5MqMbpCwkuWRDujuwnlSKgQb7FMzZ_RbApuqlhUzPKHm5CSR8dO4siIuD_P_kTqNC1lknpwr2V9Og2FOoZhi6Ifw" />
+                  <img alt="Enrolled trader" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces&q=80" />
                 </div>
               </div>
               <div className="text-sm font-label-caps text-on-primary-container">
-                <span className="text-primary-fixed font-bold">250+ TRADERS</span> ENROLLED WORLDWIDE
+                <span className="text-primary-fixed font-bold">1000+ TRADERS</span> ENROLLED WORLDWIDE
               </div>
             </div>
             </div>

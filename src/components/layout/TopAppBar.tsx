@@ -49,7 +49,7 @@ export default function TopAppBar() {
                   ? 'text-primary-fixed font-extrabold border-primary-fixed'
                   : 'text-secondary font-bold border-transparent hover:text-primary-fixed'
                 }`}
-              href={link.href || `#${link.id}`}
+              href={link.href || `/#${link.id}`}
               onClick={() => handleNavClick(link.id)}
             >
               {link.label}
